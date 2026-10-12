@@ -1,0 +1,11 @@
+{
+  "name": "neohub-dashboard",
+  "version": "1.0.0",
+  "description": "Local web dashboard for a Heatmiser neoHub (legacy port 4242 API)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "private": true
+}

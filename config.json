@@ -1,0 +1,10 @@
+{
+  "hubHost": "192.168.1.46",
+  "hubPort": 4242,
+  "listenHost": "0.0.0.0",
+  "listenPort": 8484,
+  "statusCacheMs": 4000,
+  "hubTimeoutMs": 15000,
+  "historyPollMs": 60000,
+  "historyHeartbeatMs": 600000
+}
