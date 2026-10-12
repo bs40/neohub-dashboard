@@ -2,7 +2,7 @@
 rem Builds dist\neoHub.exe (tray app, no console) and, if Inno Setup is installed, the installer.
 setlocal
 cd /d "%~dp0"
-if "%NEOHUB_VERSION%"=="" set NEOHUB_VERSION=1.0.0
+if "%NEOHUB_VERSION%"=="" set NEOHUB_VERSION=1.1.0
 
 echo [1/3] exe resources (icon, manifest, version info)
 go run github.com/tc-hib/go-winres@v0.3.3 make --in winres\winres.json --out rsrc --product-version %NEOHUB_VERSION% --file-version %NEOHUB_VERSION%

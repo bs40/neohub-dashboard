@@ -267,6 +267,12 @@ tr:last-child td { border-bottom: none; }
 .profile h3 { font-size: 16px; }
 .profile h3 .id { color: var(--text-3); font-weight: 500; font-size: 13px; }
 
+/* ---------- phone access ---------- */
+.panel.phone { margin-top: 16px; }
+.qr { background: #fff; padding: 8px; border-radius: 12px; flex: none; }
+.panel.phone .url { font-size: 18px; font-weight: 600; color: var(--amber-2); word-break: break-all; margin: 4px 0 8px; }
+.panel.phone a.btn { text-decoration: none; }
+
 /* ---------- misc ---------- */
 .out { background: rgba(0, 0, 0, 0.35); border: 1px solid var(--line); border-radius: var(--radius-s); padding: 10px; max-height: 320px; overflow: auto; white-space: pre-wrap; word-break: break-all; min-height: 40px; margin-top: 10px; }
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: #2a1d14; border: 1px solid var(--line-2); color: var(--text); padding: 10px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; z-index: 20; box-shadow: var(--shadow); }

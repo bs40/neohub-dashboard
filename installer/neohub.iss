@@ -4,7 +4,7 @@
 #define AppName "neoHub"
 #define AppVersion GetEnv("NEOHUB_VERSION")
 #if AppVersion == ""
-  #define AppVersion "1.0.0"
+  #define AppVersion "1.1.0"
 #endif
 
 [Setup]
@@ -52,7 +52,7 @@ Filename: "schtasks.exe"; Parameters: "/delete /tn ""neoHub Dashboard"" /f"; Fla
 Filename: "powershell.exe"; Parameters: "-NoProfile -Command ""Get-CimInstance Win32_Process -Filter \""Name='node.exe'\"" | Where-Object {{ $_.CommandLine -like '*neohub-dashboard*server.js*' } | ForEach-Object {{ Stop-Process -Id $_.ProcessId -Force }"""; Flags: runhidden
 Filename: "netsh.exe"; Parameters: "advfirewall firewall delete rule name=""neoHub Dashboard"""; Flags: runhidden
 Filename: "netsh.exe"; Parameters: "advfirewall firewall add rule name=""neoHub"" dir=in action=allow protocol=TCP localport=8484 profile=private program=""{app}\neoHub.exe"""; Flags: runhidden; Tasks: firewall; StatusMsg: "Adding firewall rule..."
-Filename: "{app}\neoHub.exe"; Description: "Start {#AppName} now"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\neoHub.exe"; Parameters: "-open"; Description: "Start {#AppName} now and open the dashboard"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
 Filename: "taskkill.exe"; Parameters: "/IM neoHub.exe /F"; Flags: runhidden; RunOnceId: "killapp"

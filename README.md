@@ -17,9 +17,17 @@ Run the installer from `dist\` (built by `build.cmd`, see below). It offers to s
 at sign-in and to add the firewall rule for phones and tablets, and it retires the older
 Node-based scheduled task if that was set up.
 
-The tray icon's menu has **Open dashboard**, the hub it found, **Find hub again**,
-**Start with Windows** and **Quit**. Settings, the connectivity history and a log live in
-`%LOCALAPPDATA%\neoHub`.
+The tray icon's menu has **Open dashboard**, **QR code for phones**, the hub it found,
+**Find hub again**, **Start with Windows** and **Quit**. Settings, the connectivity history
+and a log live in `%LOCALAPPDATA%\neoHub`.
+
+**Phones and tablets**: the tray's "QR code for phones" (or the "Open on your phone" panel on
+the Hub tab, or `/phone`) shows a QR code for the dashboard's address on your home network.
+The app picks the address on the same subnet as the hub, so a VPN adapter is not offered
+first. Scan it with the phone's camera, then "Add to Home Screen".
+
+The dashboard opens in the browser automatically on the very first run and whenever the exe
+is started with `-open` (which the installer's "start now" option does).
 
 Discovery tries the last known address first, then sweeps each local /24 subnet for a
 device answering the hub protocol on port 4242 (about a second on a home network). The hub

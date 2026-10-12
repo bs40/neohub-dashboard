@@ -65,8 +65,10 @@ type app struct {
 func main() {
 	console := flag.Bool("console", false, "run in the terminal without a tray icon")
 	port := flag.Int("port", 0, "override the listen port")
+	openFlag := flag.Bool("open", false, "open the dashboard in the browser once it is up")
 	flag.Parse()
 
+	firstRun := !fileExists(filepath.Join(config.Dir(), "config.json"))
 	cfg := config.Load()
 	listenPort := cfg.ListenPort
 	if *port != 0 { // a command-line override is for this run only; it is not saved
@@ -84,7 +86,8 @@ func main() {
 		Hub: a.hub, History: hist, Public: pub, Img: img,
 		StatusCache:  time.Duration(cfg.StatusCacheMs) * time.Millisecond,
 		PollInterval: time.Duration(cfg.HistoryPollMs) * time.Millisecond,
-		HubInfo:      a.hubInfo, Rediscover: a.rediscover, Version: Version, Logger: logger,
+		HubInfo:      a.hubInfo, Rediscover: a.rediscover, Addresses: a.lanAddresses, ListenPort: listenPort,
+		Version: Version, Logger: logger,
 	})
 
 	addr := net.JoinHostPort(cfg.ListenHost, fmt.Sprint(listenPort))
@@ -106,6 +109,15 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	go a.discoveryLoop(ctx)
 	go a.srv.Run()
+	if *openFlag || firstRun {
+		// Give discovery a head start so the first page shows real data.
+		go func() {
+			for i := 0; i < 20 && a.hub.Host() == ""; i++ {
+				time.Sleep(250 * time.Millisecond)
+			}
+			openBrowser(a.url())
+		}()
+	}
 
 	if *console {
 		sig := make(chan os.Signal, 1)
@@ -205,6 +217,7 @@ func (a *app) onTrayReady(cancel context.CancelFunc) {
 	systray.SetTitle("neoHub")
 	systray.SetTooltip("neoHub dashboard")
 	open := systray.AddMenuItem("Open dashboard", "Open the dashboard in your browser")
+	phone := systray.AddMenuItem("QR code for phones", "Show a QR code other devices can scan")
 	status := systray.AddMenuItem("Hub: searching…", "")
 	status.Disable()
 	find := systray.AddMenuItem("Find hub again", "Sweep the network for the hub")
@@ -220,6 +233,8 @@ func (a *app) onTrayReady(cancel context.CancelFunc) {
 			select {
 			case <-open.ClickedCh:
 				openBrowser(a.url())
+			case <-phone.ClickedCh:
+				openBrowser(a.url() + "phone")
 			case <-find.ClickedCh:
 				a.rediscover()
 			case <-startup.ClickedCh:
@@ -253,6 +268,11 @@ func (a *app) onTrayReady(cancel context.CancelFunc) {
 
 func openBrowser(url string) {
 	_ = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+}
+
+func fileExists(p string) bool {
+	_, err := os.Stat(p)
+	return err == nil
 }
 
 // ---------- logging ----------

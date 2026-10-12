@@ -30,8 +30,10 @@ type Options struct {
 	Img          fs.FS // background photos, served under /img/
 	StatusCache  time.Duration
 	PollInterval time.Duration
-	HubInfo      func() HubInfo // current discovery state for /api/hub
-	Rediscover   func()         // asks the app to search for the hub again
+	HubInfo      func() HubInfo  // current discovery state for /api/hub
+	Rediscover   func()          // asks the app to search for the hub again
+	Addresses    func() []string // this machine's LAN IPv4 addresses, best first
+	ListenPort   int
 	Version      string
 	Logger       *log.Logger
 }
@@ -325,6 +327,8 @@ func (s *Server) routes() {
 		s.invalidate()
 		writeJSON(w, http.StatusOK, map[string]any{"ok": true, "result": result})
 	})
+
+	s.phoneRoutes()
 
 	// Static files: photos under /img/, everything else from the public folder.
 	imgFS := http.FileServer(http.FS(s.opt.Img))

@@ -507,6 +507,17 @@ function renderHub() {
       <details style="margin-top:8px"><summary class="muted">Raw GET_SYSTEM</summary><pre class="mono out">${esc(JSON.stringify(s, null, 1))}</pre></details>
     </div>
   </div>`;
+  // Phone access panel (tray app only: it knows the LAN addresses and renders the QR code).
+  api("/api/addresses").then((r) => {
+    if (!r.primary) return;
+    $("#hubdetail").insertAdjacentHTML("beforeend", `<div class="panel phone"><h3><span class="ico">${ICON.home}</span>Open on your phone</h3>
+      <div class="row gap wrap" style="align-items:flex-start">
+        <img class="qr" src="/qr.png?text=${encodeURIComponent(r.primary)}" alt="QR code for ${esc(r.primary)}" width="180" height="180">
+        <div><p>Point your phone's camera at the code, or type the address:</p><div class="url mono">${esc(r.primary)}</div>
+        <p class="muted">Then tap Share and "Add to Home Screen" to keep it as an app.${r.urls.length > 1 ? "<br>Other addresses: " + r.urls.slice(1).map(esc).join(", ") : ""}</p>
+        <a class="btn" href="/phone" target="_blank">Open full-screen QR</a></div>
+      </div></div>`);
+  }).catch(() => {});
   // Hub address + discovery state (the tray app finds the hub itself; the Node server just reports its config).
   api("/api/hub").then((h) => {
     const cell = $("#h-hubaddr"); if (!cell) return;
