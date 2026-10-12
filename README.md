@@ -4,7 +4,45 @@ A small local web dashboard for a Heatmiser neoHub (gen 2). It talks to the hub 
 legacy local API on TCP port 4242 (no token needed) and serves a web UI you can open from
 any device on your home network.
 
-## Run it
+It comes in two forms that share the same front-end:
+
+- **Windows tray app (Go)**: one `neoHub.exe` that finds the hub on the network by itself,
+  sits in the system tray and serves the dashboard. Installed by `neoHub-Setup-x.y.z.exe`.
+- **Node script**: `npm start` runs the same server from source, using the hub address in
+  `config.json`. Handy for development.
+
+## Windows tray app
+
+Run the installer from `dist\` (built by `build.cmd`, see below). It offers to start neoHub
+at sign-in and to add the firewall rule for phones and tablets, and it retires the older
+Node-based scheduled task if that was set up.
+
+The tray icon's menu has **Open dashboard**, the hub it found, **Find hub again**,
+**Start with Windows** and **Quit**. Settings, the connectivity history and a log live in
+`%LOCALAPPDATA%\neoHub`.
+
+Discovery tries the last known address first, then sweeps each local /24 subnet for a
+device answering the hub protocol on port 4242 (about a second on a home network). The hub
+does not answer the Heatmiser app's "hubseek" broadcast on current firmware, so that is not
+used. If the hub stops answering the app searches again automatically.
+
+Run `neoHub.exe -console` to keep a terminal and skip the tray, or `-port 9000` to serve
+on another port for one run.
+
+### Building
+
+Needs Go 1.24+ and, for the installer, Inno Setup 6 (`winget install JRSoftware.InnoSetup`).
+
+```bash
+build.cmd
+```
+
+This embeds the icon and version info, builds `dist\neoHub.exe` (no console window, the
+`public` and `img` folders are compiled in) and then `dist\neoHub-Setup-1.0.0.exe`. Set
+`NEOHUB_VERSION` to change the version. Go sources: `main.go`, `autostart_windows.go` and
+`internal/` (`hub` client, `discover`, `history`, `server`, `config`).
+
+## Node version
 
 ```bash
 npm start

@@ -491,6 +491,7 @@ function renderHub() {
     </div>
     <div class="panel"><h3><span class="ico">${ICON.monitor}</span>Hub information</h3>
       <table class="kv"><tbody>
+        <tr><td>Hub address</td><td id="h-hubaddr"><span class="muted">…</span></td></tr>
         <tr><td>Firmware</td><td>${esc(status.firmware["firmware version"])} (hub type ${esc(s.HUB_TYPE)})</td></tr>
         <tr><td>System type</td><td>${esc(s.GLOBAL_SYSTEM_TYPE)} · ${esc(s.GLOBAL_HC_MODE)}</td></tr>
         <tr><td>Heating levels</td><td>${esc(s.HEATING_LEVELS)}</td></tr>
@@ -506,6 +507,12 @@ function renderHub() {
       <details style="margin-top:8px"><summary class="muted">Raw GET_SYSTEM</summary><pre class="mono out">${esc(JSON.stringify(s, null, 1))}</pre></details>
     </div>
   </div>`;
+  // Hub address + discovery state (the tray app finds the hub itself; the Node server just reports its config).
+  api("/api/hub").then((h) => {
+    const cell = $("#h-hubaddr"); if (!cell) return;
+    cell.innerHTML = `${h.host ? `<span class="mono">${esc(h.host)}:${esc(h.port)}</span>` : chip(h.searching ? "Searching the network…" : "Not found", "warn")}${h.lastFound ? ` <span class="muted">· found ${new Date(h.lastFound).toLocaleTimeString()}</span>` : ""}${h.lastError && !h.host ? ` <span class="muted">· ${esc(h.lastError)}</span>` : ""} <button class="btn small" id="h-rediscover">Find hub again</button>`;
+    $("#h-rediscover").onclick = () => action("rediscover", {}, "Searching the network for the hub…");
+  }).catch(() => { const cell = $("#h-hubaddr"); if (cell) cell.innerHTML = `<span class="mono">${esc(status.hubHost || "configured in config.json")}</span>`; });
   $("#h-ntp-on").onclick = () => action("ntp", { on: true });
   $("#h-ntp-off").onclick = () => action("ntp", { on: false });
   $("#h-sync").onclick = () => action("syncTimeFromPc", {}, "Hub clock set");

@@ -3,3 +3,5 @@ data/
 setup-windows.log
 .claude/
 *.log
+dist/
+rsrc_windows_*.syso
