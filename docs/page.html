@@ -1,12 +1,11 @@
 <title>neoHub Dashboard</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a single scrolling column that mirrors the dashboard itself: dark glass panels on a
-   warm near-black ground, serif display, amber accent. One deliberate dark look, like the product. */
+/* Layout: one scrolling column that looks like the product: dark glass panels on a warm
+   near-black ground, serif display, amber accent. One deliberate dark look. */
 :root {
   color-scheme: dark;
   --bg: #16100b;
-  --bg-2: #1f1710;
   --panel: rgba(255, 244, 230, 0.05);
   --line: rgba(255, 244, 230, 0.12);
   --text: #f7f0e6;
@@ -16,7 +15,6 @@
   --amber-2: #f3b562;
   --amber-ink: #1d1208;
   --green: #7fd48a;
-  --red: #e8705c;
   --serif: "Playfair Display", Georgia, "Times New Roman", serif;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, "SF Mono", Menlo, monospace;
@@ -31,7 +29,7 @@ h3 { font-size: 22px; line-height: 1.25; }
 p { margin: 0; }
 a { color: var(--amber-2); }
 code { font-family: var(--mono); font-size: 0.92em; background: rgba(0, 0, 0, 0.35); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
-.muted { color: var(--text-2); }
+pre { font-family: var(--mono); font-size: 14px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; overflow-x: auto; margin: 8px 0 0; }
 .eyebrow { font-size: 12.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber-2); }
 
 /* top bar */
@@ -45,61 +43,54 @@ code { font-family: var(--mono); font-size: 0.92em; background: rgba(0, 0, 0, 0.
 
 /* hero */
 .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 36px; align-items: center; padding-block: 56px 40px; }
-.hero p.lead { font-size: 19px; color: var(--text-2); margin-top: 16px; max-width: 34em; }
+.hero p.lead { font-size: 19px; color: var(--text-2); margin-top: 16px; max-width: 32em; }
 .hero .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); color: var(--text); background: var(--panel); }
 .btn.primary { background: linear-gradient(180deg, var(--amber-2), var(--amber)); color: var(--amber-ink); border-color: transparent; }
 .shot { display: block; width: 100%; max-width: 100%; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
-.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; }
-.fact { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
-.fact b { display: block; font-family: var(--serif); font-size: 26px; font-weight: 500; font-variant-numeric: tabular-nums; }
-.fact span { color: var(--text-2); font-size: 13.5px; }
+
+/* benefits */
+.benefits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; }
+.benefit { padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); min-width: 0; }
+.benefit b { display: block; font-family: var(--serif); font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+.benefit span { color: var(--text-2); font-size: 14px; }
 
 /* sections */
 section { padding-block: 48px; border-top: 1px solid var(--line); }
 section .head { margin-bottom: 22px; max-width: 42em; }
 section .head p { color: var(--text-2); margin-top: 8px; }
 
-/* how it works flow */
-.flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 10px; align-items: stretch; }
-.node { border: 1px solid var(--line); background: var(--panel); border-radius: 14px; padding: 16px 18px; min-width: 0; }
-.node .eyebrow { display: block; margin-bottom: 6px; }
-.node p { color: var(--text-2); font-size: 14.5px; }
-.arrow { display: grid; place-items: center; color: var(--amber-2); font-size: 26px; }
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
-.step { border-left: 2px solid var(--amber); padding-left: 14px; min-width: 0; }
-.step b { display: block; margin-bottom: 4px; }
-.step p { color: var(--text-2); font-size: 14.5px; }
-
 /* tab tour */
 .tab { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; padding-block: 28px; }
 .tab + .tab { border-top: 1px dashed var(--line); }
 .tab .text { min-width: 0; }
+.tab p.intro { color: var(--text-2); margin-top: 8px; }
 .tab ul { margin: 12px 0 0; padding-left: 18px; color: var(--text-2); }
 .tab li { margin: 6px 0; }
 .tab li b { color: var(--text); font-weight: 600; }
-.tab .pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(243, 181, 98, 0.6); color: var(--amber-2); background: rgba(232, 150, 60, 0.12); margin-bottom: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(243, 181, 98, 0.6); color: var(--amber-2); background: rgba(232, 150, 60, 0.12); margin-bottom: 8px; }
 
-/* tables & notes */
-table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
-th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-th { color: var(--text-3); font-weight: 600; font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; }
-.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
-.note { border: 1px solid rgba(232, 150, 60, 0.45); background: rgba(232, 150, 60, 0.08); border-radius: 12px; padding: 14px 16px; color: var(--text-2); font-size: 14.5px; }
-.note b { color: var(--amber-2); }
+/* cards & steps */
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .card { border: 1px solid var(--line); background: var(--panel); border-radius: 14px; padding: 18px 20px; min-width: 0; }
-.card h3 { margin-bottom: 8px; }
+.card h3 { margin-bottom: 6px; }
 .card p, .card li { color: var(--text-2); font-size: 14.5px; }
 .card ul { margin: 8px 0 0; padding-left: 18px; }
+ol.steps { margin: 10px 0 0; padding-left: 0; list-style: none; counter-reset: step; }
+ol.steps li { position: relative; padding-left: 40px; margin: 10px 0; color: var(--text-2); font-size: 14.5px; min-width: 0; }
+ol.steps li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: rgba(232, 150, 60, 0.18); border: 1px solid rgba(232, 150, 60, 0.45); color: var(--amber-2); font-weight: 700; font-size: 13px; }
+ol.steps li b { color: var(--text); }
+.note { border: 1px solid rgba(232, 150, 60, 0.45); background: rgba(232, 150, 60, 0.08); border-radius: 12px; padding: 14px 16px; color: var(--text-2); font-size: 14.5px; }
+.note b { color: var(--amber-2); }
+.faq { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
+.faq div { min-width: 0; }
+.faq b { display: block; margin-bottom: 4px; }
+.faq p { color: var(--text-2); font-size: 14.5px; }
 footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-top: 1px solid var(--line); display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
 
 @media (max-width: 860px) {
-  .hero, .tab, .grid2 { grid-template-columns: 1fr; }
-  .facts { grid-template-columns: repeat(2, 1fr); }
-  .flow { grid-template-columns: 1fr; }
-  .arrow { transform: rotate(90deg); }
-  .steps { grid-template-columns: 1fr; }
+  .hero, .tab, .grid2, .faq { grid-template-columns: 1fr; }
+  .benefits { grid-template-columns: repeat(2, 1fr); }
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 </style>
@@ -107,7 +98,7 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 <div class="top"><div class="in">
   <div class="brand"><img src="shots/icon.png" alt="">neoHub</div>
   <nav>
-    <a href="#how">How it works</a><a href="#overview">Overview</a><a href="#zones">Zones</a><a href="#schedules">Schedules</a><a href="#profiles">Profiles</a><a href="#hub">Hub</a><a href="#history">History</a><a href="#phone">Phones</a><a href="#install">Install</a><a href="#inside">Under the hood</a>
+    <a href="#tour">What you get</a><a href="#phone">On your phone</a><a href="#windows">Windows</a><a href="#pi">Raspberry Pi</a><a href="#faq">Good to know</a>
   </nav>
 </div></div>
 
@@ -115,183 +106,178 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 
 <header class="hero">
   <div>
-    <span class="eyebrow">Heatmiser neoHub, without the cloud</span>
-    <h1>Whole home comfort, on your own network</h1>
-    <p class="lead">neoHub is a small Windows tray app that finds your Heatmiser neoHub, talks to it directly over the house Wi-Fi, and serves a dashboard to every phone, tablet and PC at home. No account, no internet dependency, nothing leaves the building.</p>
+    <span class="eyebrow">For homes with a Heatmiser neoHub</span>
+    <h1>Your heating, on every screen in the house</h1>
+    <p class="lead">neoHub puts all your rooms on one warm, simple dashboard. See what every thermostat is doing, nudge a room up or down, set the week's programme, and spot a thermostat that has gone quiet. It runs on a computer in your home and never needs the internet.</p>
     <div class="cta">
       <a class="btn primary" href="https://neoapp.home.bs40.com/">Open the dashboard</a>
-      <a class="btn" href="https://github.com/bs40/neohub-dashboard">Source on GitHub</a>
+      <a class="btn" href="#windows">Get it for Windows</a>
+      <a class="btn" href="#pi">Get it for Raspberry Pi</a>
     </div>
   </div>
-  <img class="shot" src="shots/overview.jpg" alt="The Overview tab: a greeting, Heat all zones and All to standby buttons, and a card for each of the 13 zones showing the current and set temperature">
+  <img class="shot" src="shots/overview.jpg" alt="The Overview screen: a greeting, Heat all zones and All to standby buttons, and a card for each room with its temperature">
 </header>
 
-<div class="facts">
-  <div class="fact"><b>13</b><span>zones on one hub</span></div>
-  <div class="fact"><b>1 s</b><span>to find the hub on the network</span></div>
-  <div class="fact"><b>24 MB</b><span>single exe, no runtime to install</span></div>
-  <div class="fact"><b>60 s</b><span>between connectivity checks</span></div>
+<div class="benefits">
+  <div class="benefit"><b>Every room at a glance</b><span>One card per room with the temperature now and the one you asked for.</span></div>
+  <div class="benefit"><b>Works without the internet</b><span>Talks to your hub directly over home Wi-Fi. No account, no cloud, no outages.</span></div>
+  <div class="benefit"><b>Phone, tablet or PC</b><span>Open it in any browser at home, or add it to a phone's home screen.</span></div>
+  <div class="benefit"><b>Finds your hub by itself</b><span>Nothing to configure. It looks for the hub when it starts and keeps an eye on it.</span></div>
 </div>
 
-<section id="how">
-  <div class="head"><span class="eyebrow">How it works</span><h2>Three parts, one small program</h2>
-  <p>The neoHub has a local control port that the Heatmiser app itself uses when you are at home. neoHub speaks to that port directly, which is why nothing here depends on Heatmiser's servers.</p></div>
-  <div class="flow">
-    <div class="node"><span class="eyebrow">Tray app</span><h3>neoHub.exe</h3><p>Starts with Windows, sits in the tray, and runs a tiny web server. One file, written in Go, with the dashboard and its photos compiled in.</p></div>
-    <div class="arrow">→</div>
-    <div class="node"><span class="eyebrow">Hub link</span><h3>Port 4242</h3><p>Every click becomes a JSON command on the hub's legacy local port. Commands run one at a time, because the hub dislikes company.</p></div>
-    <div class="arrow">→</div>
-    <div class="node"><span class="eyebrow">Dashboard</span><h3>Any browser</h3><p>Served to the whole home network on port 8484. Add it to a phone's home screen and it behaves like an app.</p></div>
-  </div>
-  <div class="steps">
-    <div class="step"><b>Finding the hub</b><p>On start the app tries the hub's last address, then sweeps each local subnet for anything answering the hub protocol. It re-checks every minute and searches again if the hub goes quiet.</p></div>
-    <div class="step"><b>Reading the house</b><p>Live data, system settings, engineer settings, profiles and holiday state are fetched together and cached for four seconds, so a page full of controls costs the hub only one round of questions.</p></div>
-    <div class="step"><b>Keeping a diary</b><p>Once a minute the app notes which thermostats are offline, whether the hub's time sync is running, and whether the hub answered at all. Only changes are written, plus a heartbeat every ten minutes.</p></div>
-  </div>
-</section>
-
 <section id="tour">
-  <div class="head"><span class="eyebrow">The dashboard</span><h2>A tour of the tabs</h2><p>Screenshots are from the live installation.</p></div>
+  <div class="head"><span class="eyebrow">What you get</span><h2>A tour of the dashboard</h2><p>Six screens, one for each thing you might want to do. Screenshots are from a real home with thirteen rooms.</p></div>
 
   <div class="tab" id="overview">
-    <img class="shot" src="shots/overview.jpg" alt="Overview tab with a card per zone">
-    <div class="text"><span class="pill">Overview</span><h3>The whole house at a glance</h3>
+    <img class="shot" src="shots/overview.jpg" alt="Overview screen with a card per room">
+    <div class="text"><span class="pill">Overview</span><h3>The whole house, right now</h3>
+      <p class="intro">The screen you land on. A greeting tells you the state of the house in one line, then every room has its own card.</p>
       <ul>
-        <li><b>Greeting line</b> changes with the time of day and sums up the house: everything in standby, a few rooms heating, away or holiday mode on.</li>
-        <li><b>Heat all zones</b> and <b>All to standby</b> act on every thermostat at once. Standby means frost protection only, so the house will not drop below 12 °C.</li>
-        <li><b>One card per zone</b> with the current temperature, the set point and a state chip. Hover a card for quick plus, minus and standby buttons; click it to open the zone.</li>
-        <li><b>Status dot</b> in the top bar turns amber if the hub's time sync has stopped and red if a thermostat is offline.</li>
+        <li><b>Heat all zones</b> wakes every room up to follow its programme. <b>All to standby</b> rests the whole house, keeping only frost protection on.</li>
+        <li><b>Each card</b> shows the room's temperature, the target, and whether it is heating, idle or resting. Hover for quick up, down and standby buttons.</li>
+        <li><b>The dot in the corner</b> is your health light: green when all is well, amber if the hub's clock has stopped syncing, red if a thermostat has dropped off.</li>
       </ul>
     </div>
   </div>
 
   <div class="tab" id="zones">
-    <div class="text"><span class="pill">Zones</span><h3>Everything about one room</h3>
+    <div class="text"><span class="pill">Zones</span><h3>One room in detail</h3>
+      <p class="intro">Pick a room from the strip across the top. Everything about it is on one screen.</p>
       <ul>
-        <li><b>Zone strip</b> across the top: every room in a row, underlined when selected, fading at the edges with arrows when it overflows.</li>
-        <li><b>Last 24 hours</b> as a temperature chart. The thermostat keeps a reading every 15 minutes; hover for the value at any point.</li>
-        <li><b>Controls</b>: set temperature, a timed hold, standby, keypad lock, rename, and which stored profile the room follows.</li>
-        <li><b>Engineer settings</b>: frost temperature, switching differential, output delay, max preheat, floor limit and user limit, each saved individually.</li>
-        <li><b>Device information</b>: model, serial number, sensor mode, the stat's own clock and when its settings last changed.</li>
+        <li><b>Last 24 hours</b> as a temperature line, so you can see when the room warmed up and how long it held.</li>
+        <li><b>Set a temperature</b>, <b>hold</b> it for a few hours, put the room in <b>standby</b>, or <b>lock the keypad</b> so little fingers cannot change it.</li>
+        <li><b>Rename</b> the room and choose which shared programme it follows.</li>
+        <li><b>Engineer settings</b> for the curious: frost temperature, switching differential and the like, each with its own Save button.</li>
       </ul>
     </div>
-    <img class="shot" src="shots/zones.jpg" alt="Zones tab for the Living Room with chart, controls, engineer settings and device information">
+    <img class="shot" src="shots/zones.jpg" alt="Zones screen for the Living Room with a temperature chart, controls and settings">
   </div>
 
   <div class="tab" id="schedules">
-    <img class="shot" src="shots/schedules.jpg" alt="Schedules tab showing weekday and weekend comfort levels for the Living Room">
-    <div class="text"><span class="pill">Schedules</span><h3>A room's own weekly programme</h3>
+    <img class="shot" src="shots/schedules.jpg" alt="Schedules screen showing weekday and weekend times and temperatures for the Living Room">
+    <div class="text"><span class="pill">Schedules</span><h3>The week's programme for a room</h3>
+      <p class="intro">Four moments in the day: wake, leave, return and sleep. Set a time and a temperature for each, for weekdays and for the weekend.</p>
       <ul>
-        <li><b>Four comfort levels</b> per period: wake, leave, return and sleep, each a time and a temperature. The hub is in 5 day / 2 day mode, so there is a weekday row and a weekend row.</li>
-        <li><b>Save</b> writes the levels to that thermostat. <b>Copy to other zones</b> pushes the same programme to any rooms you pick.</li>
-        <li><b>Profile warning</b>: a room that follows a stored profile shows it. Saving its own levels takes it off the profile, and the Zones tab can put it back.</li>
+        <li><b>Save</b> sends the programme to that room's thermostat.</li>
+        <li><b>Copy to other zones</b> gives the same programme to any other rooms you pick, so you set it once.</li>
+        <li>A room that follows a shared programme says so. Saving its own times takes it off that programme, and the Zones screen puts it back.</li>
       </ul>
     </div>
   </div>
 
   <div class="tab" id="profiles">
     <div class="text"><span class="pill">Profiles</span><h3>Programmes shared by several rooms</h3>
+      <p class="intro">Profiles are programmes stored on the hub that many rooms can follow, such as "Bedrooms" or "Boost". Change the profile and every room on it changes.</p>
       <ul>
-        <li><b>Profile strip</b> lists the programmes stored on the hub; one shows at a time in the same table layout as Schedules.</li>
-        <li><b>Used by</b> pills show which rooms follow it, so you can see the effect of a change before making it.</li>
-        <li><b>Apply to zones</b>, <b>Rename</b> and <b>Delete</b>, plus a form to store a new profile.</li>
+        <li><b>Pick a profile</b> from the strip to see its times and temperatures.</li>
+        <li><b>Used by</b> shows the rooms following it, so you know who is affected before you touch anything.</li>
+        <li><b>Apply to zones</b>, <b>Rename</b>, <b>Delete</b>, or store a new one.</li>
       </ul>
-      <div class="note" style="margin-top:12px"><b>Hub quirk.</b> When a 5 day / 2 day profile is stored, the hub writes the weekend row over the weekday row as well, so a new profile ends up with the weekend values in both periods. The form says so. A room's own comfort levels are not affected.</div>
     </div>
-    <img class="shot" src="shots/profiles.jpg" alt="Profiles tab showing the Daily2 profile, the rooms that use it, and its schedule">
+    <img class="shot" src="shots/profiles.jpg" alt="Profiles screen showing the Daily2 profile, the rooms that use it, and its programme">
   </div>
 
   <div class="tab" id="hub">
-    <img class="shot" src="shots/hub.jpg" alt="Hub tab with Time, Modes and Hub information panels and the phone QR code">
-    <div class="text"><span class="pill">Hub</span><h3>The hub itself</h3>
+    <img class="shot" src="shots/hub.jpg" alt="Hub screen with Time, Modes and Hub information panels and the phone QR code">
+    <div class="text"><span class="pill">Hub</span><h3>Whole-house settings</h3>
+      <p class="intro">The things you set once and forget, plus the switches for going away.</p>
       <ul>
-        <li><b>Time</b>: the hub's clock against this device's, the NTP client, time zone and daylight saving. One button syncs the hub's clock from the PC.</li>
-        <li><b>Modes</b>: away, holiday with start and end, schedule format, temperature unit, and a button that flashes the hub's LED so you can find it in the cupboard.</li>
-        <li><b>Hub information</b>: the address discovery found, firmware, ZigBee channel (changeable, with a warning that every stat re-joins), and when the device list, profiles and settings last changed.</li>
-        <li><b>Open on your phone</b>: the QR code and address for other devices.</li>
+        <li><b>Away</b> for a day out, <b>Holiday</b> with a start and end so the house looks after itself while you are gone.</li>
+        <li><b>Time</b>: check the hub's clock, fix it with one click, and turn its automatic time sync back on if it has stopped.</li>
+        <li><b>Find the hub</b> flashes its light so you can spot it in the cupboard.</li>
+        <li><b>Open on your phone</b>: the QR code for everyone else in the house.</li>
       </ul>
     </div>
   </div>
 
   <div class="tab" id="history">
-    <div class="text"><span class="pill">History</span><h3>Who dropped off, and when</h3>
+    <div class="text"><span class="pill">History</span><h3>Which thermostat keeps dropping off</h3>
+      <p class="intro">neoHub checks on the hub and every thermostat once a minute and keeps a diary. History turns that diary into a picture.</p>
       <ul>
-        <li><b>Timeline</b> with one bar per device: the hub, its time sync and every thermostat. Green is online, red offline, amber low battery, hatched grey means the dashboard was not running.</li>
-        <li><b>Ranges</b> from six hours to thirty days or everything, scrolling sideways by drag or scrollbar, starting at now. Hover a bar for the state and its duration.</li>
-        <li><b>Events</b> such as "Hallway went offline, 29 min" and "NTP time sync back running", and <b>totals</b> of drop-outs and time offline per device.</li>
-        <li>This is the tab that answers "is it the hub, the Wi-Fi, or one bad thermostat?"</li>
+        <li><b>One bar per device</b>: green while it is online, red when it is not, amber on a low battery.</li>
+        <li><b>Zoom</b> from the last six hours out to thirty days, and drag sideways to look back in time.</li>
+        <li><b>A plain list of events</b> such as "Hallway went offline, 29 minutes", and totals per device, so you can tell a flaky thermostat from a flaky hub.</li>
       </ul>
     </div>
-    <img class="shot" src="shots/history.jpg" alt="History tab with the connectivity timeline, events list and totals">
+    <img class="shot" src="shots/history.jpg" alt="History screen with the connectivity timeline, events list and totals">
   </div>
 </section>
 
 <section id="phone">
-  <div class="head"><span class="eyebrow">Phones and tablets</span><h2>Scan, then add to the home screen</h2>
-  <p>The tray menu's "QR code for phones", and the panel at the bottom of the Hub tab, show a code for the dashboard's address on your home network. The app picks the address on the same network as the hub, so a VPN adapter is never offered first.</p></div>
+  <div class="head"><span class="eyebrow">On your phone</span><h2>Scan once, then it lives on your home screen</h2>
+  <p>Anyone on your home Wi-Fi can use the dashboard. The easiest way to share it is the QR code: on Windows it is in the tray icon's menu, and on every version it is at the bottom of the Hub screen.</p></div>
   <div class="grid2">
-    <div class="card"><h3>On an iPhone</h3><p>Open the camera, point it at the code and tap the link. In Safari tap Share, then "Add to Home Screen". It installs with the flame icon and opens full screen without the browser bars.</p></div>
-    <div class="card"><h3>On Android</h3><p>Scan with the camera or Google Lens, open the link in Chrome, then use the menu's "Add to Home screen" or "Install app".</p></div>
+    <div class="card"><h3>iPhone or iPad</h3>
+      <ol class="steps">
+        <li>Open the Camera and point it at the QR code, then tap the link that pops up.</li>
+        <li>In Safari tap <b>Share</b>, then <b>Add to Home Screen</b>.</li>
+        <li>Tap the new flame icon. It opens full screen, like an app.</li>
+      </ol></div>
+    <div class="card"><h3>Android</h3>
+      <ol class="steps">
+        <li>Scan the code with the Camera or Google Lens and open the link in Chrome.</li>
+        <li>Open Chrome's menu and choose <b>Add to Home screen</b> or <b>Install app</b>.</li>
+        <li>Tap the icon on your home screen whenever you want it.</li>
+      </ol></div>
   </div>
 </section>
 
-<section id="install">
-  <div class="head"><span class="eyebrow">Installing</span><h2>One installer, nothing else to set up</h2></div>
+<section id="windows">
+  <div class="head"><span class="eyebrow">Get it for Windows</span><h2>A small tray app on a PC that stays on</h2>
+  <p>neoHub runs quietly in the system tray, next to the clock. It uses almost no memory and starts with Windows, so the dashboard is always there.</p></div>
   <div class="grid2">
-    <div class="card"><h3>What the installer does</h3>
+    <div class="card"><h3>Installing</h3>
+      <ol class="steps">
+        <li>Download <code>neoHub-Setup-1.1.0.exe</code> and run it.</li>
+        <li>Windows may show an "unrecognised app" warning because the installer is not signed. Choose <b>More info</b>, then <b>Run anyway</b>.</li>
+        <li>Leave <b>Start neoHub when you sign in</b> and <b>Allow phones and tablets on your home network</b> ticked, and finish.</li>
+        <li>The dashboard opens in your browser. The flame icon is now in the tray.</li>
+      </ol></div>
+    <div class="card"><h3>Afterwards</h3>
       <ul>
-        <li>Copies <code>neoHub.exe</code> to Program Files and adds Start-menu shortcuts.</li>
-        <li>Offers to start neoHub at sign-in and to add the Windows Firewall rule that lets other devices reach port 8484.</li>
-        <li>Retires the earlier Node-based version if it was set up.</li>
-        <li>Starts the app and opens the dashboard when it finishes.</li>
-      </ul></div>
-    <div class="card"><h3>Day to day</h3>
-      <ul>
-        <li>The tray icon's menu: Open dashboard, QR code for phones, the hub it found, Find hub again, Start with Windows, Quit.</li>
-        <li>Settings, the connectivity diary and a log live in <code>%LOCALAPPDATA%\neoHub</code>.</li>
-        <li>Upgrading is running the new installer over the top. Settings and history are kept.</li>
-        <li>Windows SmartScreen warns once because the installer is not code-signed. Choose "More info", then "Run anyway".</li>
+        <li><b>Right-click the tray icon</b> for Open dashboard, QR code for phones, Find hub again, Start with Windows and Quit.</li>
+        <li><b>Updating</b> is just running the new installer. Your history is kept.</li>
+        <li><b>Removing</b> it is the usual Apps and features route.</li>
       </ul></div>
   </div>
 </section>
 
-<section id="inside">
-  <div class="head"><span class="eyebrow">Under the hood</span><h2>What talks to what</h2>
-  <p>The browser never touches the hub. It calls a small JSON API on the tray app, which turns each request into one or more hub commands with validation and range checks.</p></div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Dashboard action</th><th>Hub command on port 4242</th><th>Notes</th></tr></thead>
-    <tbody>
-      <tr><td>Status (all tabs)</td><td><code>GET_LIVE_DATA</code>, <code>GET_SYSTEM</code>, <code>GET_ENGINEERS</code>, <code>GET_PROFILES</code>, <code>GET_HOLIDAY</code>, <code>FIRMWARE</code>, <code>GET_ZONES</code>, <code>DEVICES_SN</code></td><td>Fetched together, cached for 4 seconds</td></tr>
-      <tr><td>Set temperature, hold</td><td><code>SET_TEMP</code>, <code>HOLD</code></td><td>5 to 35 °C; a hold of 0 h 0 min cancels</td></tr>
-      <tr><td>Standby on / off</td><td><code>FROST_ON</code>, <code>FROST_OFF</code></td><td>Frost protection stays active in standby</td></tr>
-      <tr><td>Engineer settings</td><td><code>SET_FROST</code>, <code>SET_DIFF</code>, <code>SET_DELAY</code>, <code>SET_PREHEAT</code>, <code>SET_FLOOR</code>, <code>USER_LIMIT</code></td><td>Each range-checked before sending</td></tr>
-      <tr><td>Schedules</td><td><code>READ_COMFORT_LEVELS</code>, <code>SET_COMFORT_LEVELS</code></td><td>Saving detaches the zone from its profile</td></tr>
-      <tr><td>Profiles</td><td><code>GET_PROFILES</code>, <code>RUN_PROFILE_ID</code>, <code>CLEAR_CURRENT_PROFILE</code>, <code>STORE_PROFILE</code>, <code>CLEAR_PROFILE</code>, <code>PROFILE_TITLE</code></td><td>Storing under an existing name is refused by the hub</td></tr>
-      <tr><td>Hub settings</td><td><code>NTP_ON/OFF</code>, <code>SET_DATE</code>, <code>SET_TIME</code>, <code>TIME_ZONE</code>, <code>DST_ON/OFF</code>, <code>AWAY_ON/OFF</code>, <code>HOLIDAY</code>, <code>SET_FORMAT</code>, <code>SET_TEMP_FORMAT</code>, <code>SET_CHANNEL</code>, <code>IDENTIFY</code></td><td>Channel change asks for confirmation</td></tr>
-      <tr><td>Advanced tab</td><td>Any single-key command</td><td>Write commands ask first; every exchange is logged</td></tr>
-    </tbody>
-  </table></div>
-  <div class="grid2" style="margin-top:16px">
-    <div class="card"><h3>Things learned the hard way</h3>
+<section id="pi">
+  <div class="head"><span class="eyebrow">Get it for Raspberry Pi</span><h2>Or a Raspberry Pi tucked away next to the router</h2>
+  <p>A Pi makes a good home for neoHub because it is always on and uses almost no power. Any Pi 3, 4, 5 or Zero 2 W running the 64-bit version of Raspberry Pi OS will do.</p></div>
+  <div class="grid2">
+    <div class="card"><h3>Installing</h3>
+      <ol class="steps">
+        <li>Copy <code>neohub_1.1.0_arm64.deb</code> onto the Pi. (On a 32-bit system use the <code>armhf</code> file instead.)</li>
+        <li>In a terminal on the Pi, in the folder you copied it to, run:
+          <pre>sudo apt install ./neohub_1.1.0_arm64.deb</pre></li>
+        <li>That is it. neoHub starts straight away and every time the Pi boots. The installer prints the address to open, usually <code>http://raspberrypi.local:8484/</code>.</li>
+      </ol></div>
+    <div class="card"><h3>Afterwards</h3>
       <ul>
-        <li>The hub does not answer the Heatmiser app's "hubseek" broadcast on firmware 2218, so discovery sweeps the subnet instead. It takes about a second.</li>
-        <li>The hub keeps one connection happy at a time. All commands go through a single queue.</li>
-        <li>After a ZigBee channel change every thermostat's 24-hour reading buffer is wiped and refills at one sample per 15 minutes. The chart shows gaps rather than zeros while that happens.</li>
-        <li>Only the first poll after start waits for discovery, so a fresh start never logs a false "hub unreachable".</li>
+        <li><b>Phones</b>: run <code>neohub qr</code> on the Pi to draw the QR code in the terminal, or use the one on the Hub screen.</li>
+        <li><b>Checking on it</b>: <code>neohub status</code> shows the hub it found and the dashboard address.</li>
+        <li><b>Updating</b>: run the same install command with the new file.</li>
+        <li><b>Removing</b>: <code>sudo apt remove neohub</code>.</li>
       </ul></div>
-    <div class="card"><h3>Files</h3>
-      <ul>
-        <li><code>main.go</code>: tray menu, discovery loop, browser opening, autostart.</li>
-        <li><code>internal/hub</code>: the port 4242 client. <code>internal/discover</code>: the subnet sweep.</li>
-        <li><code>internal/server</code>: the JSON API, action allowlist, status cache, history poller, QR code.</li>
-        <li><code>public/</code>: the dashboard, plain HTML, CSS and JavaScript with no build step, shared with the Node version used for development.</li>
-      </ul></div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="head"><span class="eyebrow">Good to know</span><h2>Questions people ask</h2></div>
+  <div class="faq">
+    <div><b>Does it need the internet?</b><p>No. It talks to the hub over your home Wi-Fi, so it keeps working if your broadband goes down. The Heatmiser app keeps working too; both can be used side by side.</p></div>
+    <div><b>What does "standby" mean?</b><p>The room stops following its programme and only comes on if it gets very cold, around 12 °C, to protect the pipes. "Heat all zones" or the room's own button wakes it up again.</p></div>
+    <div><b>Can other people in the house use it?</b><p>Yes, anyone on your Wi-Fi. There is no login, so it stays on the home network and is not reachable from outside.</p></div>
+    <div><b>Why is a room showing a flat line or gaps in its chart?</b><p>Thermostats keep one reading every 15 minutes for the last day. After a thermostat re-joins the hub the chart refills over the next 24 hours.</p></div>
+    <div><b>Why did my new profile end up with the same times every day?</b><p>A quirk of the hub: when a new profile is stored it copies the weekend row over the weekday row. The form warns you. Rooms' own schedules are not affected.</p></div>
+    <div><b>Something on the Hub screen says the time sync stopped. Is that bad?</b><p>It means the hub's clock may drift and programmes slowly run late. One click on Start fixes it, and the History screen shows how often it happens.</p></div>
   </div>
 </section>
 
 <footer>
-  <span>neoHub dashboard · built for a Heatmiser neoHub gen 2, firmware 2218</span>
-  <span><a href="https://github.com/bs40/neohub-dashboard">github.com/bs40/neohub-dashboard</a></span>
+  <span>neoHub dashboard · for the Heatmiser neoHub</span>
+  <span><a href="https://github.com/bs40/neohub-dashboard">Downloads and source on GitHub</a></span>
 </footer>
 
 </div>
