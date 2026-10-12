@@ -1,0 +1,30 @@
+# nfpm config: builds the Raspberry Pi .deb (armhf). NEOHUB_VERSION comes from build.cmd.
+name: neohub
+arch: "armhf"
+platform: linux
+version: "${NEOHUB_VERSION}"
+section: utils
+priority: optional
+maintainer: bs40 <claude@bs40.com>
+description: |
+  Local dashboard for a Heatmiser neoHub.
+  Finds the hub on the network, serves a web dashboard to the LAN on port 8484
+  and keeps a connectivity history. Runs as the neohub systemd service.
+vendor: bs40
+homepage: https://github.com/bs40/neohub-dashboard
+license: MIT
+depends:
+  - systemd
+contents:
+  - src: ../dist/linux-armhf/neohub
+    dst: /usr/bin/neohub
+    file_info:
+      mode: 0755
+  - src: ./neohub.service
+    dst: /lib/systemd/system/neohub.service
+    file_info:
+      mode: 0644
+scripts:
+  postinstall: ./postinstall.sh
+  preremove: ./preremove.sh
+  postremove: ./postremove.sh

@@ -1,0 +1,27 @@
+[Unit]
+Description=neoHub dashboard for a Heatmiser neoHub
+Documentation=https://github.com/bs40/neohub-dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/neohub
+Restart=on-failure
+RestartSec=5
+# Runs as a throwaway unprivileged user; /var/lib/neohub is created for it and kept.
+DynamicUser=yes
+StateDirectory=neohub
+Environment=NEOHUB_DATA=/var/lib/neohub
+# Hardening (nothing here needs more than the network and its state directory).
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

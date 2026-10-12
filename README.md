@@ -50,6 +50,37 @@ This embeds the icon and version info, builds `dist\neoHub.exe` (no console wind
 `NEOHUB_VERSION` to change the version. Go sources: `main.go`, `autostart_windows.go` and
 `internal/` (`hub` client, `discover`, `history`, `server`, `config`).
 
+## Raspberry Pi
+
+The same program runs headless on a Pi as a systemd service. `build.cmd` produces two
+packages: `dist\neohub_<version>_arm64.deb` for 64-bit Raspberry Pi OS (Pi 3, 4, 5 and
+Zero 2 W) and `dist\neohub_<version>_armhf.deb` for 32-bit OS.
+
+Copy the .deb to the Pi and install it:
+
+```bash
+sudo apt install ./neohub_1.1.0_arm64.deb
+```
+
+That installs `/usr/bin/neohub`, creates the `neohub` service (unprivileged dynamic user,
+state in `/var/lib/neohub`), enables it at boot and starts it. It then prints the address.
+Upgrades are the same command with the new file; `sudo apt remove neohub` stops and removes
+it (`purge` also deletes the history).
+
+On the Pi:
+
+```bash
+neohub status          # the hub it found and the dashboard address
+neohub qr              # QR code for phones, drawn in the terminal
+systemctl status neohub
+journalctl -u neohub -f
+```
+
+The dashboard is at `http://<pi-hostname>.local:8484/` or the Pi's IP address. There is no
+tray on the Pi; "Find hub again" and the QR code are on the dashboard's Hub tab. Raspberry
+Pi OS has no firewall enabled by default, so nothing else is needed for other devices to
+reach it.
+
 ## Node version
 
 ```bash

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sync"
 )
 
@@ -23,13 +24,28 @@ type Config struct {
 	path string
 }
 
-// Dir is the per-user data directory, created on first use.
+// Dir is the data directory, created on first use. NEOHUB_DATA overrides it (the systemd
+// unit sets it to /var/lib/neohub); otherwise it is %LOCALAPPDATA%\neoHub on Windows and
+// ~/.config/neohub elsewhere.
 func Dir() string {
-	base := os.Getenv("LOCALAPPDATA")
-	if base == "" {
-		base, _ = os.UserConfigDir()
+	if d := os.Getenv("NEOHUB_DATA"); d != "" {
+		_ = os.MkdirAll(d, 0o755)
+		return d
 	}
-	d := filepath.Join(base, "neoHub")
+	var d string
+	if runtime.GOOS == "windows" {
+		base := os.Getenv("LOCALAPPDATA")
+		if base == "" {
+			base, _ = os.UserConfigDir()
+		}
+		d = filepath.Join(base, "neoHub")
+	} else {
+		base, err := os.UserConfigDir()
+		if err != nil || base == "" {
+			base = "/var/lib"
+		}
+		d = filepath.Join(base, "neohub")
+	}
 	_ = os.MkdirAll(d, 0o755)
 	return d
 }
