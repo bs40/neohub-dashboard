@@ -5,3 +5,4 @@ setup-windows.log
 *.log
 dist/
 rsrc_windows_*.syso
+docs/downloads/

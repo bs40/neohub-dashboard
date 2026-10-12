@@ -48,5 +48,11 @@ if exist %ISCC% (
 ) else (
   echo    Inno Setup not found; skipped. Install it with: winget install JRSoftware.InnoSetup
 )
+rem Stage the site's downloads next to the page for deploy-bunny.ps1.
+if not exist docs\downloads mkdir docs\downloads
+copy /y dist\neoHub-Setup-%NEOHUB_VERSION%.exe docs\downloads\ >nul 2>&1
+copy /y dist\neohub_%NEOHUB_VERSION%_arm64.deb docs\downloads\ >nul 2>&1
+copy /y dist\neohub_%NEOHUB_VERSION%_armhf.deb docs\downloads\ >nul 2>&1
+
 echo done: dist\
 dir /b /s dist

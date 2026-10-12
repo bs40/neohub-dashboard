@@ -91,6 +91,11 @@ ol.steps li::before { counter-increment: step; content: counter(step); position:
 ol.steps li b { color: var(--text); }
 .note { border: 1px solid rgba(232, 150, 60, 0.45); background: rgba(232, 150, 60, 0.08); border-radius: 12px; padding: 14px 16px; color: var(--text-2); font-size: 14.5px; }
 .note b { color: var(--amber-2); }
+.dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.dl .card { display: flex; flex-direction: column; gap: 6px; }
+.dl .card h3 { font-family: var(--mono); font-size: 15px; font-weight: 600; word-break: break-all; }
+.dl .btn { align-self: flex-start; margin-top: 6px; }
+.dl .sum { font-family: var(--mono); font-size: 11.5px; color: var(--text-3); margin-top: 4px; }
 .faq { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
 .faq div { min-width: 0; }
 .faq b { display: block; margin-bottom: 4px; }
@@ -98,7 +103,7 @@ ol.steps li b { color: var(--text); }
 footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-top: 1px solid var(--line); display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
 
 @media (max-width: 860px) {
-  .hero, .tab, .grid2, .faq { grid-template-columns: 1fr; }
+  .hero, .tab, .grid2, .faq, .dl { grid-template-columns: 1fr; }
   .benefits { grid-template-columns: repeat(2, 1fr); }
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
@@ -107,7 +112,7 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 <div class="top"><div class="in">
   <div class="brand"><img src="shots/icon.png" alt="">neoHub</div>
   <nav>
-    <a href="#tour">What you get</a><a href="#phone">On your phone</a><a href="#windows">Windows</a><a href="#pi">Raspberry Pi</a><a href="#faq">Good to know</a>
+    <a href="#tour">What you get</a><a href="#phone">On your phone</a><a href="#download">Download</a><a href="#windows">Windows</a><a href="#pi">Raspberry Pi</a><a href="#faq">Good to know</a>
   </nav>
 </div></div>
 
@@ -119,9 +124,9 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
     <h1>Your heating, on every screen in the house</h1>
     <p class="lead">neoHub puts all your rooms on one warm, simple dashboard. See what every thermostat is doing, nudge a room up or down, set the week's programme, and spot a thermostat that has gone quiet. It runs on a computer in your home and never needs the internet.</p>
     <div class="cta">
-      <a class="btn primary" href="https://neoapp.home.bs40.com/">Open the dashboard</a>
-      <a class="btn" href="#windows">Get it for Windows</a>
+      <a class="btn primary" href="downloads/neoHub-Setup-1.1.0.exe">Download for Windows</a>
       <a class="btn" href="#pi">Get it for Raspberry Pi</a>
+      <a class="btn" href="#tour">See what it does</a>
     </div>
   </div>
   <img class="shot" src="shots/overview.jpg" alt="The Overview screen: a greeting, Heat all zones and All to standby buttons, and a card for each room with its temperature">
@@ -231,13 +236,23 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
   </div>
 </section>
 
+<section id="download">
+  <div class="head"><span class="eyebrow">Download</span><h2>Version 1.1.0</h2>
+  <p>Pick the file for the computer that will run neoHub. It only needs to run on one machine in the house; everyone else uses it from a browser.</p></div>
+  <div class="dl">
+    <div class="card"><span class="eyebrow">Windows 10 or 11</span><h3>neoHub-Setup-1.1.0.exe</h3><p>18.7 MB · installer</p><a class="btn primary" href="downloads/neoHub-Setup-1.1.0.exe">Download</a><p class="sum">SHA-256 33bbe39d…ff77cd</p></div>
+    <div class="card"><span class="eyebrow">Raspberry Pi, 64-bit OS</span><h3>neohub_1.1.0_arm64.deb</h3><p>18.3 MB · Pi 3, 4, 5 and Zero 2 W</p><a class="btn primary" href="downloads/neohub_1.1.0_arm64.deb">Download</a><p class="sum">SHA-256 e1e8089f…05314a</p></div>
+    <div class="card"><span class="eyebrow">Raspberry Pi, 32-bit OS</span><h3>neohub_1.1.0_armhf.deb</h3><p>18.5 MB · any Pi on 32-bit Raspberry Pi OS</p><a class="btn primary" href="downloads/neohub_1.1.0_armhf.deb">Download</a><p class="sum">SHA-256 a7df06be…63b373</p></div>
+  </div>
+</section>
+
 <section id="windows">
   <div class="head"><span class="eyebrow">Get it for Windows</span><h2>A small tray app on a PC that stays on</h2>
   <p>neoHub runs quietly in the system tray, next to the clock. It uses almost no memory and starts with Windows, so the dashboard is always there.</p></div>
   <div class="grid2">
     <div class="card"><h3>Installing</h3>
       <ol class="steps">
-        <li>Download <code>neoHub-Setup-1.1.0.exe</code> and run it.</li>
+        <li><a href="downloads/neoHub-Setup-1.1.0.exe">Download neoHub-Setup-1.1.0.exe</a> and run it.</li>
         <li>Windows may show an "unrecognised app" warning because the installer is not signed. Choose <b>More info</b>, then <b>Run anyway</b>.</li>
         <li>Leave <b>Start neoHub when you sign in</b> and <b>Allow phones and tablets on your home network</b> ticked, and finish.</li>
         <li>The dashboard opens in your browser. The flame icon is now in the tray.</li>
@@ -257,8 +272,8 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
   <div class="grid2">
     <div class="card"><h3>Installing</h3>
       <ol class="steps">
-        <li>Copy <code>neohub_1.1.0_arm64.deb</code> onto the Pi. (On a 32-bit system use the <code>armhf</code> file instead.)</li>
-        <li>In a terminal on the Pi, in the folder you copied it to, run:
+        <li><a href="downloads/neohub_1.1.0_arm64.deb">Download neohub_1.1.0_arm64.deb</a> and copy it onto the Pi, or fetch it on the Pi itself with <code>wget</code> using this page's download link. (On a 32-bit system use the <a href="downloads/neohub_1.1.0_armhf.deb">armhf file</a> instead.)</li>
+        <li>In a terminal on the Pi, in the folder the file is in, run:
           <pre>sudo apt install ./neohub_1.1.0_arm64.deb</pre></li>
         <li>That is it. neoHub starts straight away and every time the Pi boots. The installer prints the address to open, usually <code>http://raspberrypi.local:8484/</code>.</li>
       </ol></div>
@@ -286,7 +301,7 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 
 <footer>
   <span>neoHub dashboard · for the Heatmiser neoHub</span>
-  <span><a href="https://github.com/bs40/neohub-dashboard">Downloads and source on GitHub</a></span>
+  <span><a href="#download">Downloads</a> · <a href="https://github.com/bs40/neohub-dashboard">Source on GitHub</a></span>
 </footer>
 
 </div>

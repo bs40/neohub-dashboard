@@ -81,6 +81,23 @@ tray on the Pi; "Find hub again" and the QR code are on the dashboard's Hub tab.
 Pi OS has no firewall enabled by default, so nothing else is needed for other devices to
 reach it.
 
+## Website and downloads (Bunny.net)
+
+`docs/` is the public site: `index.html`, the screenshots in `shots/` and, after a build,
+the packages in `downloads/` (not committed; `build.cmd` copies them there). Links on the
+page are relative, so the folder can be served from any static host.
+
+To upload it to a Bunny.net storage zone:
+
+```powershell
+$env:BUNNY_STORAGE_KEY = "<storage zone access key>"
+.\deploy-bunny.ps1 -Zone <zone-name> [-Region uk] [-Path neohub]
+```
+
+Add `-Purge -PullZoneHost <host>.b-cdn.net` with `BUNNY_API_KEY` set to clear the CDN cache
+after replacing files. `docs/page.html` is the body-only source the published claude.ai copy
+is made from; edit it, then regenerate `index.html` (see git history for the one-liner).
+
 ## Node version
 
 ```bash
