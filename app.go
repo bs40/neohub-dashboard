@@ -19,6 +19,7 @@ import (
 	"github.com/bs40/neohub-dashboard/internal/config"
 	"github.com/bs40/neohub-dashboard/internal/discover"
 	"github.com/bs40/neohub-dashboard/internal/history"
+	"github.com/bs40/neohub-dashboard/internal/hostinfo"
 	"github.com/bs40/neohub-dashboard/internal/hub"
 	"github.com/bs40/neohub-dashboard/internal/server"
 )
@@ -63,11 +64,15 @@ func newApp(cfg *config.Config, listenPort int, logger *log.Logger) (*app, error
 	hist := history.Open(filepath.Join(config.Dir(), "history.jsonl"), time.Duration(cfg.HistoryHeartbeatMs)*time.Millisecond)
 	pub, _ := fs.Sub(publicFS, "public")
 	img, _ := fs.Sub(imgFS, "img")
+	hi := hostinfo.New()
+	hi.Version, hi.DataDir, hi.Port, hi.NameURL = Version, config.Dir(), listenPort, nameURL
+	hi.HubHost, hi.LanIPs = a.hub.Host, a.lanAddresses
+	go hi.Run()
 	a.srv = server.New(server.Options{
 		Hub: a.hub, History: hist, Public: pub, Img: img,
 		StatusCache:  time.Duration(cfg.StatusCacheMs) * time.Millisecond,
 		PollInterval: time.Duration(cfg.HistoryPollMs) * time.Millisecond,
-		HubInfo:      a.hubInfo, Rediscover: a.rediscover, Addresses: a.lanAddresses, ListenPort: listenPort, NameURL: nameURL,
+		HubInfo:      a.hubInfo, Rediscover: a.rediscover, Addresses: a.lanAddresses, ListenPort: listenPort, NameURL: nameURL, Host: func() any { return hi.Snapshot() },
 		Version: Version, Logger: logger,
 	})
 	addr := net.JoinHostPort(cfg.ListenHost, fmt.Sprint(listenPort))

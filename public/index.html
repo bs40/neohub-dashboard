@@ -33,6 +33,7 @@
     <button data-tab="profiles">Profiles</button>
     <button data-tab="hub">Hub</button>
     <button data-tab="history">History</button>
+    <button data-tab="host">Host</button>
     <button data-tab="phone">Phone link</button>
     <button data-tab="advanced">Advanced</button>
   </nav>
@@ -116,6 +117,17 @@
     <div class="cols">
       <div class="panel"><h3><svg class="ico" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Events</h3><div class="tablewrap"><table id="histevents"><thead><tr><th>When</th><th>What</th><th>Duration</th></tr></thead><tbody></tbody></table></div></div>
       <div class="panel"><h3><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Totals in range</h3><div class="tablewrap"><table id="histtotals"><thead><tr><th>Device</th><th>Drop-outs</th><th>Time offline</th><th>Longest</th></tr></thead><tbody></tbody></table></div></div>
+    </div>
+  </section>
+
+  <section id="tab-host" class="tab">
+    <div class="zone-head" style="margin-bottom:8px"><span class="leaf"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><h2 class="serif" id="host-title">Host</h2></div>
+    <p class="muted" id="host-sub" style="margin:0 0 14px 52px">The machine neoHub is running on.</p>
+    <div class="panel"><h3><svg class="ico" viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Right now <span class="muted" id="host-live"></span></h3><div id="host-gauges" class="gauges"></div></div>
+    <div class="cols3">
+      <div class="panel"><h3><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>This machine</h3><table class="kv"><tbody id="host-machine"></tbody></table></div>
+      <div class="panel"><h3><svg class="ico" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0M12 19.5h.01"/></svg>Network</h3><table class="kv"><tbody id="host-network"></tbody></table></div>
+      <div class="panel"><h3><svg class="ico" viewBox="0 0 24 24"><path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 1-3s1 2 2 2c0-3-1-5 2-10Z"/></svg>neoHub</h3><table class="kv"><tbody id="host-app"></tbody></table></div>
     </div>
   </section>
 

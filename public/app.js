@@ -652,6 +652,59 @@ async function loadHistory() {
   $("#histsummary").textContent = `· ${snaps.length} snapshots · ${bad ? bad + " device" + (bad > 1 ? "s" : "") + " with drop-outs" : "no drop-outs"} in this range`;
 }
 
+// ---------- host ----------
+// The machine neoHub runs on (a PC or a Raspberry Pi): refreshed every two seconds while the tab is open.
+let hostTimer = null;
+const bytes = (n) => { if (n == null) return "—"; const u = ["B", "KB", "MB", "GB", "TB"]; let i = 0; while (n >= 1024 && i < u.length - 1) { n /= 1024; i++; } return `${n.toFixed(n >= 100 || i === 0 ? 0 : 1)} ${u[i]}`; };
+const since = (ms) => { if (!ms) return "—"; let s = Math.max(0, Math.round((Date.now() - ms) / 1000)); const d = Math.floor(s / 86400); s -= d * 86400; const h = Math.floor(s / 3600); s -= h * 3600; const m = Math.floor(s / 60); return d ? `${d} day${d === 1 ? "" : "s"}, ${h} h` : h ? `${h} h ${m} min` : `${m} min`; };
+async function loadHost() {
+  clearTimeout(hostTimer);
+  if (!$("#tab-host").classList.contains("active") || document.hidden) return;
+  try { renderHost(await api("/api/host")); $("#host-live").textContent = "· updated " + new Date().toLocaleTimeString(); }
+  catch (e) { $("#host-gauges").innerHTML = `<p class="muted">${esc(e.message)}</p>`; }
+  finally { hostTimer = setTimeout(loadHost, 2000); }
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden) loadHost(); });
+function renderHost(h) {
+  const m = h.machine, live = h.live, app = h.app, net = h.network;
+  $("#host-title").textContent = m.name;
+  $("#host-sub").textContent = `${m.model || m.name} · ${m.os}`;
+  const level = (pct) => (pct == null ? "" : pct >= 90 ? "bad" : pct >= 75 ? "warn" : "ok");
+  const gauge = (icon, label, pct, big, sub) => `<div class="gauge">${icon}<div><div class="glabel">${label}</div><div class="gnum">${big}</div>
+    ${pct == null ? "" : `<div class="gbar ${level(pct)}"><span style="width:${Math.min(100, Math.max(0, pct)).toFixed(0)}%"></span></div>`}${sub ? `<div class="gsub">${sub}</div>` : ""}</div></div>`;
+  const memUsed = live.memoryTotal != null && live.memoryAvailable != null ? live.memoryTotal - live.memoryAvailable : null;
+  const memPct = memUsed != null ? (100 * memUsed) / live.memoryTotal : null;
+  const diskUsed = live.diskTotal != null && live.diskFree != null ? live.diskTotal - live.diskFree : null;
+  const diskPct = diskUsed != null ? (100 * diskUsed) / live.diskTotal : null;
+  const t = live.temperatureCelsius;
+  const cpuIcon = '<svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>';
+  const memIcon = '<svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="9" rx="1"/><path d="M7 17v3M12 17v3M17 17v3M7 8V5M12 8V5M17 8V5"/></svg>';
+  const diskIcon = '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>';
+  const tempIcon = '<svg viewBox="0 0 24 24"><path d="M10 4a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0V4Z"/></svg>';
+  $("#host-gauges").innerHTML = [
+    gauge(cpuIcon, "Processor", live.cpuPercent, live.cpuPercent == null ? "…" : `${live.cpuPercent.toFixed(0)}<small>%</small>`, `${m.cores} core${m.cores === 1 ? "" : "s"}`),
+    t == null ? "" : `<div class="gauge temp ${t >= 80 ? "bad" : t >= 70 ? "warn" : ""}">${tempIcon}<div><div class="glabel">Processor temperature</div><div class="gnum">${t.toFixed(1)}<small>°C</small></div><div class="gsub">${t >= 80 ? "Hot: it will slow itself down" : t >= 70 ? "Warm" : "Fine"}</div></div></div>`,
+    gauge(memIcon, "Memory", memPct, memUsed == null ? "—" : bytes(memUsed), memUsed == null ? "" : `used of ${bytes(live.memoryTotal)} · <b>${bytes(live.memoryAvailable)} spare</b>`),
+    gauge(diskIcon, "Disk space", diskPct, diskUsed == null ? "—" : bytes(diskUsed), diskUsed == null ? "" : `used of ${bytes(live.diskTotal)} · <b>${bytes(live.diskFree)} free</b>`),
+    gauge(ICON.flame, "neoHub itself", app.cpuPercent, bytes(app.memory), `memory · ${app.cpuPercent == null ? "…" : app.cpuPercent.toFixed(1) + "% processor"}`),
+  ].join("");
+  const rows = (pairs) => pairs.filter(([, v]) => v != null && v !== "").map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  $("#host-machine").innerHTML = rows([
+    ["Name", esc(m.name)], ["Model", m.model && esc(m.model)], ["Operating system", esc(m.os)], ["Kernel", m.kernel && esc(m.kernel)],
+    ["Processor", `${m.processor ? esc(m.processor) + ", " : ""}${m.cores} core${m.cores === 1 ? "" : "s"} (${esc(m.architecture)})`],
+    ["Up for", since(m.upSince)], ["Time here", new Date(m.now).toLocaleString()], ["Time zone", esc(m.timeZone)],
+  ]);
+  $("#host-network").innerHTML = rows([
+    ["Open neoHub at", net.urls.map((u) => `<a href="${esc(u)}">${esc(u)}</a>`).join("<br>")],
+    ...net.interfaces.map((n) => [`${esc(n.kind)} <span class="muted">${esc(n.name)}</span>`, n.addresses.map(esc).join("<br>")]),
+  ]);
+  $("#host-app").innerHTML = rows([
+    ["Version", esc(app.version)], ["Running on", esc(app.runtime)], ["Running for", since(app.started)],
+    ["Hub", app.hubHost ? `<span class="mono">${esc(app.hubHost)}</span>` : "searching…"],
+    ["Data", `<span class="mono">${esc(app.data)}</span> <span class="muted">(${bytes(app.dataSize)})</span>`],
+  ]);
+}
+
 // ---------- phone link ----------
 // The tray / Pi app knows the LAN addresses and draws the QR code; the Node dev server does not.
 async function renderPhone() {
@@ -711,6 +764,7 @@ function switchTab(name) {
   if (name === "hub") renderHub();
   if (name === "history") loadHistory();
   if (name === "phone") renderPhone();
+  if (name === "host") loadHost();
   if (name === "advanced") loadLog();
 }
 $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (b) switchTab(b.dataset.tab); });

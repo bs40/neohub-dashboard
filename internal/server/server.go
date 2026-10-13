@@ -34,6 +34,7 @@ type Options struct {
 	Rediscover   func()          // asks the app to search for the hub again
 	Addresses    func() []string // this machine's LAN IPv4 addresses, best first
 	NameURL      string          // a friendly name address such as http://neohub.local/ (Pi), "" if none
+	Host         func() any      // machine details for the Host tab, nil if unavailable
 	ListenPort   int
 	Version      string
 	Logger       *log.Logger
@@ -277,6 +278,13 @@ func (s *Server) routes() {
 		writeJSON(w, http.StatusOK, reply)
 	})
 	m.HandleFunc("GET /api/log", func(w http.ResponseWriter, r *http.Request) { writeJSON(w, http.StatusOK, s.opt.Hub.Log()) })
+	m.HandleFunc("GET /api/host", func(w http.ResponseWriter, r *http.Request) {
+		if s.opt.Host == nil {
+			s.fail(w, http.StatusNotFound, errors.New("host information is not available on this server"))
+			return
+		}
+		writeJSON(w, http.StatusOK, s.opt.Host())
+	})
 	m.HandleFunc("GET /api/config", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]any{"hubHost": s.opt.Hub.Host(), "hubPort": s.opt.Hub.Port(), "version": s.opt.Version})
 	})

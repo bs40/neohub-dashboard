@@ -4,7 +4,7 @@
 #define AppName "neoHub"
 #define AppVersion GetEnv("NEOHUB_VERSION")
 #if AppVersion == ""
-  #define AppVersion "1.2.2"
+  #define AppVersion "1.3.0"
 #endif
 
 [Setup]
