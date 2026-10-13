@@ -107,7 +107,7 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 <div class="top"><div class="in">
   <div class="brand"><img src="shots/icon.png" alt="">neoHub</div>
   <nav>
-    <a href="#why">Why</a><a href="#tour">What you get</a><a href="#phone">On your phone</a><a href="#download">Download</a><a href="#windows">Windows</a><a href="#pi">Raspberry Pi</a><a href="#faq">Good to know</a>
+    <a href="#why">Why</a><a href="#tour">What you get</a><a href="#phone">On your phone</a><a href="#download">Download</a><a href="#windows">Windows</a><a href="#pi">Raspberry Pi / Linux</a><a href="#faq">Good to know</a>
   </nav>
 </div></div>
 
@@ -119,7 +119,7 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
     <h1>Your heating, on every screen in the house</h1>
     <p class="lead">neoHub puts all your rooms on one warm, simple dashboard. See what every thermostat is doing, nudge a room up or down, set the week's programme, and spot a thermostat that has gone quiet. It runs on a computer in your home and never needs the internet.</p>
     <div class="cta">
-      <a class="btn primary" href="downloads/neoHub-Setup-1.2.1.exe">Download for Windows</a>
+      <a class="btn primary" href="downloads/neoHub-Setup-1.2.2.exe">Download for Windows</a>
       <a class="btn" href="#pi">Get it for Raspberry Pi</a>
       <a class="btn" href="#tour">See what it does</a>
     </div>
@@ -137,8 +137,8 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 <section id="why">
   <div class="head"><span class="eyebrow">Why I created this</span><h2>A better window on a hub that kept going quiet</h2></div>
   <div class="prose">
-    <p>While the app is pretty good at a basic level, I had a number of issues with the hub dropping connection. When I'd make a change, the app would say 'your changes have been sent' but nothing would happen. This is known as 'fire and forget' and is a big sin in the software development world; you must always confirm any action has actually taken place!</p>
-    <p>The app also didn't expose enough information so I could see what was actually happening. There were also some usability issues that I felt could be fixed. When I looked deeper, the NTP client (Network Time Protocol, which makes sure the time is accurate) had stopped working and the time was out of sync. I could also switch the wireless channel the hub used to communicate with the thermostats (Zigbee) to avoid interference and finally I could monitor all devices for drop-outs.</p>
+    <p>While the official Heatmiser app is pretty good at a basic level, I had a number of issues with the hub dropping connection. When I'd make a change, the app would say 'your changes have been sent' but nothing would happen. This is known as 'fire and forget' and is a big sin in the software development world; you must always confirm any action has actually taken place!</p>
+    <p>The app also didn't expose enough information so I couldn't see what was actually happening. There were also some usability issues that I felt could be fixed. When I looked deeper, the NTP client (Network Time Protocol, which makes sure the time is accurate) had stopped working and the time was out of sync. Adding an enhanced front-end, I could also switch the wireless channel the hub used to communicate with the thermostats (Zigbee) to avoid interference and finally I could monitor all devices for drop-outs.</p>
     <p>If you find this useful or have any questions, you'll find me at <span class="email">neohub@bs40.com</span>. This software comes with absolutely no warranty whatsoever and no claims that it will work in your environment. I worked hard to make sure it would, but I've been in IT for over 40 years so know full well there's a good chance it won't!</p>
   </div>
 </section>
@@ -241,12 +241,12 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 </section>
 
 <section id="download">
-  <div class="head"><span class="eyebrow">Download</span><h2>Version 1.2.1</h2>
+  <div class="head"><span class="eyebrow">Download</span><h2>Version 1.2.2</h2>
   <p>Pick the file for the computer that will run neoHub. It only needs to run on one machine in the house; everyone else uses it from a browser.</p></div>
   <div class="dl">
-    <div class="card"><span class="eyebrow">Windows 10 or 11</span><h3>neoHub-Setup-1.2.1.exe</h3><p>18.9 MB · installer</p><a class="btn primary" href="downloads/neoHub-Setup-1.2.1.exe">Download</a><p class="sum">SHA-256 172df6c3…d2df5a</p></div>
-    <div class="card"><span class="eyebrow">Raspberry Pi, 64-bit OS</span><h3>neohub_1.2.1_arm64.deb</h3><p>18.5 MB · Pi 3, 4, 5 and Zero 2 W</p><a class="btn primary" href="downloads/neohub_1.2.1_arm64.deb">Download</a><p class="sum">SHA-256 46b23840…38122a</p></div>
-    <div class="card"><span class="eyebrow">Raspberry Pi, 32-bit OS</span><h3>neohub_1.2.1_armhf.deb</h3><p>18.7 MB · any Pi on 32-bit Raspberry Pi OS</p><a class="btn primary" href="downloads/neohub_1.2.1_armhf.deb">Download</a><p class="sum">SHA-256 46c3b7d7…0081a9</p></div>
+    <div class="card"><span class="eyebrow">Windows 10 or 11</span><h3>neoHub-Setup-1.2.2.exe</h3><p>18.9 MB · installer</p><a class="btn primary" href="downloads/neoHub-Setup-1.2.2.exe">Download</a><p class="sum">SHA-256 4da3db7a…6ae2e8</p></div>
+    <div class="card"><span class="eyebrow">Raspberry Pi (and possibly other Linux platforms), 64-bit OS</span><h3>neohub_1.2.2_arm64.deb</h3><p>18.5 MB · Pi 3, 4, 5 and Zero 2 W</p><a class="btn primary" href="downloads/neohub_1.2.2_arm64.deb">Download</a><p class="sum">SHA-256 dabe7b56…7f69b8</p></div>
+    <div class="card"><span class="eyebrow">Raspberry Pi (and possibly other Linux platforms), 32-bit OS</span><h3>neohub_1.2.2_armhf.deb</h3><p>18.7 MB · 32-bit Raspberry Pi OS · built but not yet tested</p><a class="btn primary" href="downloads/neohub_1.2.2_armhf.deb">Download</a><p class="sum">SHA-256 442e615e…3def8a</p></div>
   </div>
 </section>
 
@@ -256,7 +256,7 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
   <div class="grid2">
     <div class="card"><h3>Installing</h3>
       <ol class="steps">
-        <li><a href="downloads/neoHub-Setup-1.2.1.exe">Download neoHub-Setup-1.2.1.exe</a> and run it.</li>
+        <li><a href="downloads/neoHub-Setup-1.2.2.exe">Download neoHub-Setup-1.2.2.exe</a> and run it.</li>
         <li>Windows may show an "unrecognised app" warning because the installer is not signed. Choose <b>More info</b>, then <b>Run anyway</b>.</li>
         <li>Leave <b>Start neoHub when you sign in</b> and <b>Allow phones and tablets on your home network</b> ticked, and finish.</li>
         <li>The dashboard opens in your browser. The flame icon is now in the tray.</li>
@@ -271,22 +271,24 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 </section>
 
 <section id="pi">
-  <div class="head"><span class="eyebrow">Get it for Raspberry Pi</span><h2>Or a Raspberry Pi tucked away next to the router</h2>
-  <p>A Pi makes a good home for neoHub because it is always on and uses almost no power. Any Pi 3, 4, 5 or Zero 2 W running the 64-bit version of Raspberry Pi OS will do.</p></div>
+  <div class="head"><span class="eyebrow">Get it for Raspberry Pi (and possibly other Linux platforms)</span><h2>Or a Raspberry Pi tucked away next to the router</h2>
+  <p>A Pi makes a good home for neoHub because it is always on and uses almost no power. Any Pi 3, 4, 5 or Zero 2 W running the 64-bit version of Raspberry Pi OS will do; that is the version that has been tested. The same package may well work on other Debian-based Linux systems with a 64-bit ARM processor, and a 32-bit build is offered for older setups, but neither of those has been tried.</p></div>
   <div class="grid2">
     <div class="card"><h3>Installing</h3>
       <ol class="steps">
-        <li><a href="downloads/neohub_1.2.1_arm64.deb">Download neohub_1.2.1_arm64.deb</a> and copy it onto the Pi, or fetch it on the Pi itself with <code>wget</code> using this page's download link. (On a 32-bit system use the <a href="downloads/neohub_1.2.1_armhf.deb">armhf file</a> instead.)</li>
-        <li>In a terminal on the Pi, in the folder the file is in, run:
-          <pre>sudo apt install ./neohub_1.2.1_arm64.deb</pre></li>
+        <li>Open a terminal window on the Pi and fetch the package into your home folder:
+          <pre>cd ~
+wget https://neohub.bs40.com/downloads/neohub_1.2.2_arm64.deb</pre>(On a 32-bit system use <code>neohub_1.2.2_armhf.deb</code> instead, but see the note above.)</li>
+        <li>Install it from your home folder. You will be asked for your password:
+          <pre>sudo apt install -y ~/neohub_1.2.2_arm64.deb</pre></li>
         <li>That is it. neoHub starts straight away and every time the Pi boots. Open <code>http://neohub.local/</code> from any device at home. The Pi announces that name itself, so no address to remember.</li>
       </ol></div>
     <div class="card"><h3>Afterwards</h3>
       <ul>
-        <li><b>Phones</b>: run <code>neohub phone</code> on the Pi to draw the QR code in the terminal, or open the Phone link tab on the dashboard.</li>
-        <li><b>Checking on it</b>: <code>neohub status</code> shows the hub it found and the dashboard address.</li>
-        <li><b>Updating</b>: run the same install command with the new file.</li>
-        <li><b>Removing</b>: <code>sudo apt remove neohub</code>.</li>
+        <li><b>Phones</b>: in a terminal window, run <code>neohub phone</code> to draw the QR code, or open the Phone link tab on the dashboard. The dashboard is also at <code>http://neohub.local/</code>, which is easier to remember but may not work on all portable devices.</li>
+        <li><b>Checking on it</b>: in a terminal window, run <code>neohub status</code> to see the hub it found and the dashboard address.</li>
+        <li><b>Updating</b>: in a terminal window, run the same two commands with the new file.</li>
+        <li><b>Removing</b>: in a terminal window, run <code>sudo apt remove neohub</code>.</li>
       </ul></div>
   </div>
 </section>
@@ -305,7 +307,7 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 
 <footer>
   <span>neoHub dashboard · for the Heatmiser neoHub</span>
-  <span><a href="#download">Downloads</a> · <a href="https://github.com/bs40/neohub-dashboard">Source on GitHub</a></span>
+  <span><a href="#download">Downloads</a></span>
 </footer>
 
 </div>

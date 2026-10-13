@@ -665,6 +665,7 @@ async function renderPhone() {
           <img class="qr" src="/qr.png?text=${encodeURIComponent(r.primary)}" alt="QR code for ${esc(r.primary)}" width="220" height="220">
           <div style="min-width:0"><p>Point your phone's camera at the code, or type the address:</p><div class="url mono">${esc(r.primary)}</div>
           <p class="muted">Then tap Share and "Add to Home Screen" (iPhone) or the menu's "Add to Home screen" (Android) to keep it as an app.${r.urls.length > 1 ? "<br>Other addresses: " + r.urls.slice(1).map(esc).join(", ") : ""}</p>
+          ${r.nameUrl ? `<div class="alt-name"><div>Or type <span class="url mono">${esc(r.nameUrl)}</span></div><p class="muted">${ICON.info} Easier to remember, but a name like this may not work on all portable devices. If it does not open, use the address above.</p></div>` : ""}
           <a class="btn" href="/phone" target="_blank">Open full-screen QR</a></div>
         </div></div>
       <div class="panel"><h3><span class="ico">${ICON.info}</span>Good to know</h3>

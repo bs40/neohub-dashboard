@@ -35,17 +35,17 @@ func (s *Server) phoneRoutes() {
 		if len(urls) > 0 {
 			primary = urls[0]
 		}
-		writeJSON(w, http.StatusOK, map[string]any{"urls": urls, "primary": primary})
+		writeJSON(w, http.StatusOK, map[string]any{"urls": urls, "primary": primary, "nameUrl": s.opt.NameURL})
 	})
 	// A standalone page the tray menu opens: big QR code plus the address.
 	s.mux.HandleFunc("GET /phone", func(w http.ResponseWriter, r *http.Request) {
 		urls := s.lanURLs()
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		if len(urls) == 0 {
-			fmt.Fprint(w, phonePage("", nil))
+			fmt.Fprint(w, phonePage("", nil, ""))
 			return
 		}
-		fmt.Fprint(w, phonePage(urls[0], urls[1:]))
+		fmt.Fprint(w, phonePage(urls[0], urls[1:], s.opt.NameURL))
 	})
 }
 
@@ -61,7 +61,7 @@ func (s *Server) lanURLs() []string {
 	return out
 }
 
-func phonePage(primary string, others []string) string {
+func phonePage(primary string, others []string, nameURL string) string {
 	var b strings.Builder
 	b.WriteString(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>neoHub on your phone</title>
 <link rel="icon" href="/icons/icon.svg"><style>
@@ -79,6 +79,9 @@ img{width:260px;height:260px;border-radius:12px;background:#fff;padding:12px;mar
 	b.WriteString(`<p>Point your phone's camera at the code, or type the address.</p>`)
 	fmt.Fprintf(&b, `<img src="/qr.png?text=%s" alt="QR code for %s"><div class="url">%s</div>`, url.QueryEscape(primary), html.EscapeString(primary), html.EscapeString(primary))
 	b.WriteString(`<p class="alt">Then tap Share and "Add to Home Screen" to keep it as an app.`)
+	if nameURL != "" {
+		fmt.Fprintf(&b, `<br>Or type <b>%s</b> (easier to remember, but it may not work on all portable devices).`, html.EscapeString(nameURL))
+	}
 	if len(others) > 0 {
 		b.WriteString(`<br>Other addresses: `)
 		for i, u := range others {

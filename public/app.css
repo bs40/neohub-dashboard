@@ -272,6 +272,10 @@ tr:last-child td { border-bottom: none; }
 .qr { background: #fff; padding: 8px; border-radius: 12px; flex: none; }
 .panel.phone .url { font-size: 18px; font-weight: 600; color: var(--amber-2); word-break: break-all; margin: 4px 0 8px; }
 .panel.phone a.btn { text-decoration: none; }
+.alt-name { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.alt-name .url { font-size: 16px; }
+.alt-name p { display: flex; gap: 6px; align-items: flex-start; }
+.alt-name p svg { color: var(--amber-2); flex: none; margin-top: 2px; }
 .tips { margin: 6px 0 0; padding-left: 18px; color: var(--text-2); }
 .tips li { margin: 6px 0; }
 body[data-tab="phone"] .backdrop { background-image: url("/img/Cosy%20Autumn%20Candlelit%20Living%20Room.png"); }

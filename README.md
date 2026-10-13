@@ -59,7 +59,7 @@ Zero 2 W) and `dist\neohub_<version>_armhf.deb` for 32-bit OS.
 Copy the .deb to the Pi and install it:
 
 ```bash
-sudo apt install ./neohub_1.2.1_arm64.deb
+sudo apt install ./neohub_1.2.2_arm64.deb
 ```
 
 That installs `/usr/bin/neohub`, creates the `neohub` service (unprivileged dynamic user,

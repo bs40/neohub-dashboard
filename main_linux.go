@@ -52,6 +52,14 @@ func main() {
 		os.Exit(2)
 	}
 
+	// The package's neohub-mdns.service publishes neohub.local; offer it as the friendly address.
+	// Set NEOHUB_NAME_URL to override (or to "-" to hide it).
+	nameURL = "http://neohub.local/"
+	if v := os.Getenv("NEOHUB_NAME_URL"); v == "-" {
+		nameURL = ""
+	} else if v != "" {
+		nameURL = v
+	}
 	// systemd captures stderr into the journal, so log there.
 	logger := log.New(os.Stderr, "", 0)
 	logger.Printf("neoHub %s starting; data in %s", Version, config.Dir())

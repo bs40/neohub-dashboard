@@ -53,6 +53,10 @@ type app struct {
 
 // newApp wires everything up and starts listening. It returns an error if the port is
 // taken (most likely because a copy is already running).
+// nameURL is set by the platform entry point when a friendly name is published (the Pi
+// package advertises neohub.local); "" when there is none.
+var nameURL = ""
+
 func newApp(cfg *config.Config, listenPort int, logger *log.Logger) (*app, error) {
 	a := &app{cfg: cfg, log: logger, kick: make(chan struct{}, 1), port: listenPort}
 	a.hub = hub.New(cfg.HubHost, cfg.HubPort, time.Duration(cfg.HubTimeoutMs)*time.Millisecond)
@@ -63,7 +67,7 @@ func newApp(cfg *config.Config, listenPort int, logger *log.Logger) (*app, error
 		Hub: a.hub, History: hist, Public: pub, Img: img,
 		StatusCache:  time.Duration(cfg.StatusCacheMs) * time.Millisecond,
 		PollInterval: time.Duration(cfg.HistoryPollMs) * time.Millisecond,
-		HubInfo:      a.hubInfo, Rediscover: a.rediscover, Addresses: a.lanAddresses, ListenPort: listenPort,
+		HubInfo:      a.hubInfo, Rediscover: a.rediscover, Addresses: a.lanAddresses, ListenPort: listenPort, NameURL: nameURL,
 		Version: Version, Logger: logger,
 	})
 	addr := net.JoinHostPort(cfg.ListenHost, fmt.Sprint(listenPort))

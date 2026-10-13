@@ -33,6 +33,7 @@ type Options struct {
 	HubInfo      func() HubInfo  // current discovery state for /api/hub
 	Rediscover   func()          // asks the app to search for the hub again
 	Addresses    func() []string // this machine's LAN IPv4 addresses, best first
+	NameURL      string          // a friendly name address such as http://neohub.local/ (Pi), "" if none
 	ListenPort   int
 	Version      string
 	Logger       *log.Logger
