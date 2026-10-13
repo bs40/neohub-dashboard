@@ -60,6 +60,10 @@ section { padding-block: 48px; border-top: 1px solid var(--line); }
 section .head { margin-bottom: 22px; max-width: 42em; }
 section .head p { color: var(--text-2); margin-top: 8px; }
 
+/* why */
+.prose { max-width: 62ch; display: grid; gap: 14px; font-size: 17px; color: var(--text-2); }
+.prose .email { color: var(--amber-2); font-weight: 600; user-select: all; }
+
 /* tab tour */
 .tab { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; padding-block: 28px; }
 .tab + .tab { border-top: 1px dashed var(--line); }
@@ -103,7 +107,7 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
 <div class="top"><div class="in">
   <div class="brand"><img src="shots/icon.png" alt="">neoHub</div>
   <nav>
-    <a href="#tour">What you get</a><a href="#phone">On your phone</a><a href="#download">Download</a><a href="#windows">Windows</a><a href="#pi">Raspberry Pi</a><a href="#faq">Good to know</a>
+    <a href="#why">Why</a><a href="#tour">What you get</a><a href="#phone">On your phone</a><a href="#download">Download</a><a href="#windows">Windows</a><a href="#pi">Raspberry Pi</a><a href="#faq">Good to know</a>
   </nav>
 </div></div>
 
@@ -129,6 +133,15 @@ footer { padding-block: 32px 0; color: var(--text-3); font-size: 13.5px; border-
   <div class="benefit"><b>Phone, tablet or PC</b><span>Open it in any browser at home, or add it to a phone's home screen.</span></div>
   <div class="benefit"><b>Finds your hub by itself</b><span>Nothing to configure. It looks for the hub when it starts and keeps an eye on it.</span></div>
 </div>
+
+<section id="why">
+  <div class="head"><span class="eyebrow">Why I created this</span><h2>A better window on a hub that kept going quiet</h2></div>
+  <div class="prose">
+    <p>While the app is pretty good at a basic level, I had a number of issues with the hub dropping connection. When I'd make a change, the app would say 'your changes have been sent' but nothing would happen. This is known as 'fire and forget' and is a big sin in the software development world; you must always confirm any action has actually taken place!</p>
+    <p>The app also didn't expose enough information so I could see what was actually happening. There were also some usability issues that I felt could be fixed. When I looked deeper, the NTP client (Network Time Protocol, which makes sure the time is accurate) had stopped working and the time was out of sync. I could also switch the wireless channel the hub used to communicate with the thermostats (Zigbee) to avoid interference and finally I could monitor all devices for drop-outs.</p>
+    <p>If you find this useful or have any questions, you'll find me at <span class="email">neohub@bs40.com</span>. This software comes with absolutely no warranty whatsoever and no claims that it will work in your environment. I worked hard to make sure it would, but I've been in IT for over 40 years so know full well there's a good chance it won't!</p>
+  </div>
+</section>
 
 <section id="tour">
   <div class="head"><span class="eyebrow">What you get</span><h2>A tour of the dashboard</h2><p>Six screens, one for each thing you might want to do. Screenshots are from a real home with thirteen rooms.</p></div>
