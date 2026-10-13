@@ -272,6 +272,9 @@ tr:last-child td { border-bottom: none; }
 .qr { background: #fff; padding: 8px; border-radius: 12px; flex: none; }
 .panel.phone .url { font-size: 18px; font-weight: 600; color: var(--amber-2); word-break: break-all; margin: 4px 0 8px; }
 .panel.phone a.btn { text-decoration: none; }
+.tips { margin: 6px 0 0; padding-left: 18px; color: var(--text-2); }
+.tips li { margin: 6px 0; }
+body[data-tab="phone"] .backdrop { background-image: url("/img/Cosy%20Autumn%20Candlelit%20Living%20Room.png"); }
 
 /* ---------- misc ---------- */
 .out { background: rgba(0, 0, 0, 0.35); border: 1px solid var(--line); border-radius: var(--radius-s); padding: 10px; max-height: 320px; overflow: auto; white-space: pre-wrap; word-break: break-all; min-height: 40px; margin-top: 10px; }

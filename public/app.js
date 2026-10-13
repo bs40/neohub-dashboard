@@ -507,17 +507,6 @@ function renderHub() {
       <details style="margin-top:8px"><summary class="muted">Raw GET_SYSTEM</summary><pre class="mono out">${esc(JSON.stringify(s, null, 1))}</pre></details>
     </div>
   </div>`;
-  // Phone access panel (tray app only: it knows the LAN addresses and renders the QR code).
-  api("/api/addresses").then((r) => {
-    if (!r.primary) return;
-    $("#hubdetail").insertAdjacentHTML("beforeend", `<div class="panel phone"><h3><span class="ico">${ICON.home}</span>Open on your phone</h3>
-      <div class="row gap wrap" style="align-items:flex-start">
-        <img class="qr" src="/qr.png?text=${encodeURIComponent(r.primary)}" alt="QR code for ${esc(r.primary)}" width="180" height="180">
-        <div><p>Point your phone's camera at the code, or type the address:</p><div class="url mono">${esc(r.primary)}</div>
-        <p class="muted">Then tap Share and "Add to Home Screen" to keep it as an app.${r.urls.length > 1 ? "<br>Other addresses: " + r.urls.slice(1).map(esc).join(", ") : ""}</p>
-        <a class="btn" href="/phone" target="_blank">Open full-screen QR</a></div>
-      </div></div>`);
-  }).catch(() => {});
   // Hub address + discovery state (the tray app finds the hub itself; the Node server just reports its config).
   api("/api/hub").then((h) => {
     const cell = $("#h-hubaddr"); if (!cell) return;
@@ -663,6 +652,33 @@ async function loadHistory() {
   $("#histsummary").textContent = `· ${snaps.length} snapshots · ${bad ? bad + " device" + (bad > 1 ? "s" : "") + " with drop-outs" : "no drop-outs"} in this range`;
 }
 
+// ---------- phone link ----------
+// The tray / Pi app knows the LAN addresses and draws the QR code; the Node dev server does not.
+async function renderPhone() {
+  const box = $("#phonedetail");
+  try {
+    const r = await api("/api/addresses");
+    if (!r.primary) throw new Error("No network address found. Is this computer connected to your home network?");
+    box.innerHTML = `<div class="cols">
+      <div class="panel phone"><h3><span class="ico">${ICON.home}</span>Open on your phone</h3>
+        <div class="row gap wrap" style="align-items:flex-start">
+          <img class="qr" src="/qr.png?text=${encodeURIComponent(r.primary)}" alt="QR code for ${esc(r.primary)}" width="220" height="220">
+          <div style="min-width:0"><p>Point your phone's camera at the code, or type the address:</p><div class="url mono">${esc(r.primary)}</div>
+          <p class="muted">Then tap Share and "Add to Home Screen" (iPhone) or the menu's "Add to Home screen" (Android) to keep it as an app.${r.urls.length > 1 ? "<br>Other addresses: " + r.urls.slice(1).map(esc).join(", ") : ""}</p>
+          <a class="btn" href="/phone" target="_blank">Open full-screen QR</a></div>
+        </div></div>
+      <div class="panel"><h3><span class="ico">${ICON.info}</span>Good to know</h3>
+        <ul class="tips">
+          <li>Anyone on your home Wi-Fi can open this address. It is not reachable from outside the house.</li>
+          <li>The address stays the same as long as this computer keeps its network address. If it changes, come back here for a new code.</li>
+          <li>If a phone cannot open it, check it is on the same Wi-Fi (not mobile data or a guest network).</li>
+        </ul></div>
+    </div>`;
+  } catch (e) {
+    box.innerHTML = `<div class="panel"><h3><span class="ico">${ICON.home}</span>Open on your phone</h3><p class="muted">${esc(e.message)}</p><p class="muted">The phone link needs the tray app or the Raspberry Pi service; the development server does not provide it. Other devices can still use this computer's network address with port 8484.</p></div>`;
+  }
+}
+
 // ---------- advanced ----------
 $("#rawsend").addEventListener("click", async () => {
   const text = $("#rawcmd").value.trim(); if (!text) return;
@@ -693,6 +709,7 @@ function switchTab(name) {
   if (name === "profiles") renderProfiles();
   if (name === "hub") renderHub();
   if (name === "history") loadHistory();
+  if (name === "phone") renderPhone();
   if (name === "advanced") loadLog();
 }
 $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (b) switchTab(b.dataset.tab); });
@@ -704,6 +721,9 @@ function tickClock() {
 }
 tickClock();
 setInterval(tickClock, 15000);
+// Deep link: /#phone (from the tray's "Phone link") opens that tab once status has loaded.
+const hashTab = location.hash.replace("#", "");
+if (hashTab && $(`#tab-${hashTab}`)) { const once = setInterval(() => { if (status) { clearInterval(once); switchTab(hashTab); } }, 200); }
 let resizeT;
 window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(() => { if (status && $("#tab-zone").classList.contains("active")) renderZoneDetail(); }, 200); });
 refreshTimer = setInterval(() => { if (!document.hidden) loadStatus(); }, 15000);

@@ -72,7 +72,7 @@ func (a *app) onTrayReady() {
 	systray.SetTitle("neoHub")
 	systray.SetTooltip("neoHub dashboard")
 	open := systray.AddMenuItem("Open dashboard", "Open the dashboard in your browser")
-	phone := systray.AddMenuItem("QR code for phones", "Show a QR code other devices can scan")
+	phone := systray.AddMenuItem("Phone link", "Show the address and QR code for phones and tablets")
 	status := systray.AddMenuItem("Hub: searching…", "")
 	status.Disable()
 	find := systray.AddMenuItem("Find hub again", "Sweep the network for the hub")
@@ -89,7 +89,7 @@ func (a *app) onTrayReady() {
 			case <-open.ClickedCh:
 				openBrowser(a.url())
 			case <-phone.ClickedCh:
-				openBrowser(a.url() + "phone")
+				openBrowser(a.url() + "#phone")
 			case <-find.ClickedCh:
 				a.rediscover()
 			case <-startup.ClickedCh:

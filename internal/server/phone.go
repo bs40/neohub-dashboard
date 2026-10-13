@@ -66,11 +66,12 @@ func phonePage(primary string, others []string) string {
 	b.WriteString(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>neoHub on your phone</title>
 <link rel="icon" href="/icons/icon.svg"><style>
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:#1a110b;color:#f7f0e6;font:15px/1.5 Inter,system-ui,sans-serif}
+a.back{position:fixed;top:14px;left:16px;color:#d5c7b4;text-decoration:none;font-size:14px}
 .card{background:rgba(22,15,11,.8);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:28px 32px;text-align:center;max-width:420px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
 h1{font:500 30px/1.1 "Playfair Display",Georgia,serif;margin:0 0 6px}p{margin:6px 0;color:#d5c7b4}
 img{width:260px;height:260px;border-radius:12px;background:#fff;padding:12px;margin:14px 0}
 .url{font:600 18px ui-monospace,Consolas,monospace;color:#f3b562;word-break:break-all}.alt{font-size:12.5px;color:#a3937f;margin-top:10px}
-</style></head><body><div class="card"><h1>neoHub on your phone</h1>`)
+</style></head><body><a class="back" href="/#phone">‹ Back to the dashboard</a><div class="card"><h1>Phone link</h1>`)
 	if primary == "" {
 		b.WriteString(`<p>No network address found. Is this PC connected to your home network?</p></div></body></html>`)
 		return b.String()

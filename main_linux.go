@@ -4,7 +4,7 @@
 //
 //	neohub            run the dashboard (what the service does)
 //	neohub status     show the hub the running service found
-//	neohub qr         print the phone QR code and address in the terminal
+//	neohub phone      print the phone link (address and QR code) in the terminal; "qr" works too
 //	neohub version
 package main
 
@@ -28,7 +28,7 @@ import (
 func main() {
 	port := flag.Int("port", 0, "override the listen port")
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "neoHub %s\n\nusage: neohub [-port N]        run the dashboard\n       neohub status           show the hub the running service found\n       neohub qr               print the phone QR code and address\n       neohub version\n\nData directory: %s (override with NEOHUB_DATA)\n", Version, config.Dir())
+		fmt.Fprintf(os.Stderr, "neoHub %s\n\nusage: neohub [-port N]        run the dashboard\n       neohub status           show the hub the running service found\n       neohub phone            print the phone link (address and QR code)\n       neohub version\n\nData directory: %s (override with NEOHUB_DATA)\n", Version, config.Dir())
 	}
 	flag.Parse()
 	cfg := config.Load()
@@ -44,7 +44,7 @@ func main() {
 		return
 	case "status":
 		os.Exit(cmdStatus(base))
-	case "qr":
+	case "qr", "phone":
 		os.Exit(cmdQR(base))
 	case "":
 	default:

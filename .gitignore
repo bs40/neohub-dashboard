@@ -6,3 +6,4 @@ setup-windows.log
 dist/
 rsrc_windows_*.syso
 docs/downloads/
+.env
