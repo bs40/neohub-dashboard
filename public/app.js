@@ -686,7 +686,7 @@ function renderHost(h) {
     t == null ? "" : `<div class="gauge temp ${t >= 80 ? "bad" : t >= 70 ? "warn" : ""}">${tempIcon}<div><div class="glabel">Processor temperature</div><div class="gnum">${t.toFixed(1)}<small>°C</small></div><div class="gsub">${t >= 80 ? "Hot: it will slow itself down" : t >= 70 ? "Warm" : "Fine"}</div></div></div>`,
     gauge(memIcon, "Memory", memPct, memUsed == null ? "—" : bytes(memUsed), memUsed == null ? "" : `used of ${bytes(live.memoryTotal)} · <b>${bytes(live.memoryAvailable)} spare</b>`),
     gauge(diskIcon, "Disk space", diskPct, diskUsed == null ? "—" : bytes(diskUsed), diskUsed == null ? "" : `used of ${bytes(live.diskTotal)} · <b>${bytes(live.diskFree)} free</b>`),
-    gauge(ICON.flame, "neoHub itself", app.cpuPercent, bytes(app.memory), `memory · ${app.cpuPercent == null ? "…" : app.cpuPercent.toFixed(1) + "% processor"}`),
+    gauge(ICON.flame, "neoHeat itself", app.cpuPercent, bytes(app.memory), `memory · ${app.cpuPercent == null ? "…" : app.cpuPercent.toFixed(1) + "% processor"}`),
   ].join("");
   const rows = (pairs) => pairs.filter(([, v]) => v != null && v !== "").map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
   $("#host-machine").innerHTML = rows([
@@ -695,7 +695,7 @@ function renderHost(h) {
     ["Up for", since(m.upSince)], ["Time here", new Date(m.now).toLocaleString()], ["Time zone", esc(m.timeZone)],
   ]);
   $("#host-network").innerHTML = rows([
-    ["Open neoHub at", net.urls.map((u) => `<a href="${esc(u)}">${esc(u)}</a>`).join("<br>")],
+    ["Open neoHeat at", net.urls.map((u) => `<a href="${esc(u)}">${esc(u)}</a>`).join("<br>")],
     ...net.interfaces.map((n) => [`${esc(n.kind)} <span class="muted">${esc(n.name)}</span>`, n.addresses.map(esc).join("<br>")]),
   ]);
   $("#host-app").innerHTML = rows([

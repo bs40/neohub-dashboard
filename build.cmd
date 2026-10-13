@@ -3,7 +3,7 @@ rem Builds dist\neoHub.exe (Windows tray app), the Raspberry Pi .deb packages an
 rem is installed, the Windows installer.
 setlocal
 cd /d "%~dp0"
-if "%NEOHUB_VERSION%"=="" set NEOHUB_VERSION=1.3.0
+if "%NEOHUB_VERSION%"=="" set NEOHUB_VERSION=1.3.1
 if not exist dist mkdir dist
 
 echo [1/5] exe resources (icon, manifest, version info)
@@ -50,9 +50,12 @@ if exist %ISCC% (
 )
 rem Stage the site's downloads next to the page for deploy-bunny.ps1.
 if not exist docs\downloads mkdir docs\downloads
-copy /y dist\neoHub-Setup-%NEOHUB_VERSION%.exe docs\downloads\ >nul 2>&1
-copy /y dist\neohub_%NEOHUB_VERSION%_arm64.deb docs\downloads\ >nul 2>&1
-copy /y dist\neohub_%NEOHUB_VERSION%_armhf.deb docs\downloads\ >nul 2>&1
+rem The package is still called neohub inside; only the file name carries the product name.
+if exist dist\neohub_%NEOHUB_VERSION%_arm64.deb move /y dist\neohub_%NEOHUB_VERSION%_arm64.deb dist\neoheat_%NEOHUB_VERSION%_arm64.deb >nul
+if exist dist\neohub_%NEOHUB_VERSION%_armhf.deb move /y dist\neohub_%NEOHUB_VERSION%_armhf.deb dist\neoheat_%NEOHUB_VERSION%_armhf.deb >nul
+copy /y dist\neoHeat-Setup-%NEOHUB_VERSION%.exe docs\downloads\ >nul 2>&1
+copy /y dist\neoheat_%NEOHUB_VERSION%_arm64.deb docs\downloads\ >nul 2>&1
+copy /y dist\neoheat_%NEOHUB_VERSION%_armhf.deb docs\downloads\ >nul 2>&1
 
 echo done: dist\
 dir /b /s dist

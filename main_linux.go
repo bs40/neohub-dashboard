@@ -28,7 +28,7 @@ import (
 func main() {
 	port := flag.Int("port", 0, "override the listen port")
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "neoHub %s\n\nusage: neohub [-port N]        run the dashboard\n       neohub status           show the hub the running service found\n       neohub phone            print the phone link (address and QR code)\n       neohub version\n\nData directory: %s (override with NEOHUB_DATA)\n", Version, config.Dir())
+		fmt.Fprintf(os.Stderr, "neoHeat %s\n\nusage: neohub [-port N]        run the dashboard\n       neohub status           show the hub the running service found\n       neohub phone            print the phone link (address and QR code)\n       neohub version\n\nData directory: %s (override with NEOHUB_DATA)\n", Version, config.Dir())
 	}
 	flag.Parse()
 	cfg := config.Load()
@@ -40,7 +40,7 @@ func main() {
 
 	switch flag.Arg(0) {
 	case "version":
-		fmt.Println("neoHub", Version)
+		fmt.Println("neoHeat", Version)
 		return
 	case "status":
 		os.Exit(cmdStatus(base))
@@ -52,9 +52,9 @@ func main() {
 		os.Exit(2)
 	}
 
-	// The package's neohub-mdns.service publishes neohub.local; offer it as the friendly address.
+	// The package's neohub-mdns.service publishes neoheat.local; offer it as the friendly address.
 	// Set NEOHUB_NAME_URL to override (or to "-" to hide it).
-	nameURL = "http://neohub.local/"
+	nameURL = "http://neoheat.local/"
 	if v := os.Getenv("NEOHUB_NAME_URL"); v == "-" {
 		nameURL = ""
 	} else if v != "" {
@@ -62,7 +62,7 @@ func main() {
 	}
 	// systemd captures stderr into the journal, so log there.
 	logger := log.New(os.Stderr, "", 0)
-	logger.Printf("neoHub %s starting; data in %s", Version, config.Dir())
+	logger.Printf("neoHeat %s starting; data in %s", Version, config.Dir())
 	a, err := newApp(cfg, listenPort, logger)
 	if err != nil {
 		logger.Printf("%v", err)
@@ -95,7 +95,7 @@ func cmdStatus(base string) int {
 		Searching                            bool
 	}
 	if err := getJSON(base+"/api/hub", &info); err != nil {
-		fmt.Fprintf(os.Stderr, "neoHub is not running on %s (%v)\n  check: systemctl status neohub\n", base, err)
+		fmt.Fprintf(os.Stderr, "neoHeat is not running on %s (%v)\n  check: systemctl status neohub\n", base, err)
 		return 1
 	}
 	var addr struct{ Primary string }
@@ -115,7 +115,7 @@ func cmdStatus(base string) int {
 func cmdQR(base string) int {
 	var addr struct{ Primary string }
 	if err := getJSON(base+"/api/addresses", &addr); err != nil || addr.Primary == "" {
-		fmt.Fprintf(os.Stderr, "neoHub is not running on %s\n", base)
+		fmt.Fprintf(os.Stderr, "neoHeat is not running on %s\n", base)
 		return 1
 	}
 	q, err := qrcode.New(addr.Primary, qrcode.Medium)

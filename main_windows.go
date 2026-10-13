@@ -41,7 +41,7 @@ func main() {
 		listenPort = *port
 	}
 	logger := openLog(*console)
-	logger.Printf("neoHub %s starting; data in %s", Version, config.Dir())
+	logger.Printf("neoHeat %s starting; data in %s", Version, config.Dir())
 
 	a, err := newApp(cfg, listenPort, logger)
 	if err != nil {
@@ -69,17 +69,17 @@ func main() {
 
 func (a *app) onTrayReady() {
 	systray.SetIcon(trayIcon)
-	systray.SetTitle("neoHub")
-	systray.SetTooltip("neoHub dashboard")
+	systray.SetTitle("neoHeat")
+	systray.SetTooltip("neoHeat dashboard")
 	open := systray.AddMenuItem("Open dashboard", "Open the dashboard in your browser")
 	phone := systray.AddMenuItem("Phone link", "Show the address and QR code for phones and tablets")
 	status := systray.AddMenuItem("Hub: searching…", "")
 	status.Disable()
 	find := systray.AddMenuItem("Find hub again", "Sweep the network for the hub")
 	systray.AddSeparator()
-	startup := systray.AddMenuItemCheckbox("Start with Windows", "Run neoHub when you sign in", autostartEnabled())
+	startup := systray.AddMenuItemCheckbox("Start with Windows", "Run neoHeat when you sign in", autostartEnabled())
 	systray.AddSeparator()
-	quit := systray.AddMenuItem("Quit neoHub", "Stop the dashboard")
+	quit := systray.AddMenuItem("Quit neoHeat", "Stop the dashboard")
 
 	go func() {
 		t := time.NewTicker(2 * time.Second)
@@ -113,7 +113,7 @@ func (a *app) onTrayReady() {
 				default:
 					status.SetTitle("Hub: not found")
 				}
-				systray.SetTooltip(fmt.Sprintf("neoHub dashboard · %s", a.url()))
+				systray.SetTooltip(fmt.Sprintf("neoHeat dashboard · %s", a.url()))
 			}
 		}
 	}()

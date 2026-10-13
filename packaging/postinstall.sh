@@ -12,7 +12,7 @@ else
 fi
 host="$(hostname 2>/dev/null || echo raspberrypi)"
 echo ""
-echo "neoHub is running. Open it from any device on your network:"
-echo "    http://neohub.local/   (or http://${host}.local:8484/)"
+echo "neoHeat is running. Open it from any device on your network:"
+echo "    http://neoheat.local/   (or http://${host}.local:8484/)"
 echo "Run 'neohub status' to see the hub it found, or 'neohub qr' for a phone QR code."
 echo ""

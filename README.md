@@ -1,4 +1,8 @@
-# neoHub Dashboard
+# neoHub Dashboard (sold as neoHeat)
+
+> The product is called **neoHeat** everywhere people see it (dashboard, installer, site at
+> https://neoheat.bs40.com, the Pi's `neoheat.local`). Code identifiers, package, service and
+> command names stay `neohub` so existing installs upgrade in place.
 
 A small local web dashboard for a Heatmiser neoHub (gen 2). It talks to the hub over the
 legacy local API on TCP port 4242 (no token needed) and serves a web UI you can open from
@@ -91,8 +95,8 @@ page are relative, so the folder can be served from any static host.
 To upload it to a Bunny.net storage zone:
 
 ```powershell
-$env:BUNNY_STORAGE_KEY = "<storage zone access key>"
-.\deploy-bunny.ps1 -Zone <zone-name> [-Region uk] [-Path neohub]
+$env:BUNNY_STORAGE_KEY = "<storage zone access key, bunny_storage_neoheat in .env>"
+.\deploy-bunny.ps1 -Zone neoheat-bs40 -Region uk
 ```
 
 Add `-Purge -PullZoneHost <host>.b-cdn.net` with `BUNNY_API_KEY` set to clear the CDN cache

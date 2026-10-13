@@ -63,7 +63,7 @@ func (s *Server) lanURLs() []string {
 
 func phonePage(primary string, others []string, nameURL string) string {
 	var b strings.Builder
-	b.WriteString(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>neoHub on your phone</title>
+	b.WriteString(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>neoHeat on your phone</title>
 <link rel="icon" href="/icons/icon.svg"><style>
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:#1a110b;color:#f7f0e6;font:15px/1.5 Inter,system-ui,sans-serif}
 a.back{position:fixed;top:14px;left:16px;color:#d5c7b4;text-decoration:none;font-size:14px}

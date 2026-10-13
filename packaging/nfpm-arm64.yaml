@@ -7,7 +7,7 @@ section: utils
 priority: optional
 maintainer: bs40 <claude@bs40.com>
 description: |
-  Local dashboard for a Heatmiser neoHub.
+  neoHeat: a local dashboard for a Heatmiser neoHub.
   Finds the hub on the network, serves a web dashboard to the LAN on port 8484
   and keeps a connectivity history. Runs as the neohub systemd service.
 vendor: bs40

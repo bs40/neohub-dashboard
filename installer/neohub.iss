@@ -1,10 +1,10 @@
 ﻿; Inno Setup script for neoHub. Build with:  ISCC installer\neohub.iss
 ; Expects dist\neoHub.exe to exist (see build.cmd).
 
-#define AppName "neoHub"
+#define AppName "neoHeat"
 #define AppVersion GetEnv("NEOHUB_VERSION")
 #if AppVersion == ""
-  #define AppVersion "1.3.0"
+  #define AppVersion "1.3.1"
 #endif
 
 [Setup]
@@ -17,7 +17,7 @@ DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
 OutputDir=..\dist
-OutputBaseFilename=neoHub-Setup-{#AppVersion}
+OutputBaseFilename=neoHeat-Setup-{#AppVersion}
 SetupIconFile=..\assets\neohub.ico
 UninstallDisplayIcon={app}\neoHub.exe
 Compression=lzma2
@@ -38,7 +38,7 @@ Source: "..\dist\neoHub.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\neoHub.exe"
-Name: "{group}\Open neoHub dashboard"; Filename: "http://localhost:8484/"
+Name: "{group}\Open neoHeat dashboard"; Filename: "http://localhost:8484/"
 Name: "{autodesktop}\{#AppName}"; Filename: "{app}\neoHub.exe"; Tasks: desktopicon
 
 [Registry]
