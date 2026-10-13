@@ -19,6 +19,8 @@ type Config struct {
 	HubTimeoutMs       int    `json:"hubTimeoutMs"`
 	HistoryPollMs      int    `json:"historyPollMs"`
 	HistoryHeartbeatMs int    `json:"historyHeartbeatMs"`
+	MdnsName           string `json:"mdnsName"`   // advertised as <name>.local; "" disables
+	ExtraPorts         []int  `json:"extraPorts"` // additional ports to serve on (e.g. 80 on a Pi)
 
 	mu   sync.Mutex
 	path string
@@ -52,7 +54,12 @@ func Dir() string {
 
 // Load reads the settings file, filling defaults for anything missing.
 func Load() *Config {
+	// MdnsName is off by default: on the Pi the package publishes neohub.local through avahi
+	// (neohub-mdns.service), which coexists with the system's own <hostname>.local.
 	c := &Config{HubPort: 4242, ListenHost: "0.0.0.0", ListenPort: 8484, StatusCacheMs: 4000, HubTimeoutMs: 15000, HistoryPollMs: 60000, HistoryHeartbeatMs: 600000}
+	if runtime.GOOS == "linux" {
+		c.ExtraPorts = []int{80} // the systemd unit grants CAP_NET_BIND_SERVICE for this
+	}
 	c.path = filepath.Join(Dir(), "config.json")
 	if b, err := os.ReadFile(c.path); err == nil {
 		_ = json.Unmarshal(b, c)

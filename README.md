@@ -59,7 +59,7 @@ Zero 2 W) and `dist\neohub_<version>_armhf.deb` for 32-bit OS.
 Copy the .deb to the Pi and install it:
 
 ```bash
-sudo apt install ./neohub_1.1.0_arm64.deb
+sudo apt install ./neohub_1.2.1_arm64.deb
 ```
 
 That installs `/usr/bin/neohub`, creates the `neohub` service (unprivileged dynamic user,
@@ -76,10 +76,11 @@ systemctl status neohub
 journalctl -u neohub -f
 ```
 
-The dashboard is at `http://<pi-hostname>.local:8484/` or the Pi's IP address. There is no
-tray on the Pi; "Find hub again" and the QR code are on the dashboard's Hub tab. Raspberry
-Pi OS has no firewall enabled by default, so nothing else is needed for other devices to
-reach it.
+The dashboard is at `http://neohub.local/` (the package installs a small avahi service that
+publishes that name next to the Pi's own `<hostname>.local`, and the neohub service also
+listens on port 80) or `http://<pi-ip>:8484/`. There is no tray on the Pi; "Find hub again"
+is on the Hub tab and the QR code on the Phone link tab. Raspberry Pi OS has no firewall
+enabled by default, so nothing else is needed for other devices to reach it.
 
 ## Website and downloads (Bunny.net)
 

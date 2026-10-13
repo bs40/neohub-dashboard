@@ -3,7 +3,7 @@ rem Builds dist\neoHub.exe (Windows tray app), the Raspberry Pi .deb packages an
 rem is installed, the Windows installer.
 setlocal
 cd /d "%~dp0"
-if "%NEOHUB_VERSION%"=="" set NEOHUB_VERSION=1.1.1
+if "%NEOHUB_VERSION%"=="" set NEOHUB_VERSION=1.2.1
 if not exist dist mkdir dist
 
 echo [1/5] exe resources (icon, manifest, version info)

@@ -1,0 +1,22 @@
+[Unit]
+Description=Publish neohub.local for the neoHub dashboard (mDNS alias via avahi)
+After=network-online.target avahi-daemon.service neohub.service
+Wants=network-online.target
+Requires=avahi-daemon.service
+
+[Service]
+# Advertises neohub.local as this machine's first address, next to the usual <hostname>.local.
+# avahi-publish talks to avahi-daemon over D-Bus, so it runs as a normal system user rather
+# than a dynamic one (dynamic users are refused by the bus policy).
+ExecStart=/bin/sh -c 'exec avahi-publish -a -R neohub.local "$(hostname -I | cut -d" " -f1)"'
+Restart=always
+RestartSec=5
+User=nobody
+Group=nogroup
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

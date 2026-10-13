@@ -46,6 +46,7 @@ type app struct {
 	lastErr   string
 	lastFound time.Time
 	kick      chan struct{} // asks the discovery loop to search now
+	mdnsIPs   string
 
 	cancel context.CancelFunc
 }
@@ -77,6 +78,20 @@ func newApp(cfg *config.Config, listenPort int, logger *log.Logger) (*app, error
 		}
 	}()
 	logger.Printf("dashboard on http://localhost:%d", listenPort)
+	// Extra ports (the Pi service adds 80 so http://neohub.local/ works without a port).
+	for _, p := range cfg.ExtraPorts {
+		if p == listenPort {
+			continue
+		}
+		xln, err := net.Listen("tcp", net.JoinHostPort(cfg.ListenHost, fmt.Sprint(p)))
+		if err != nil {
+			logger.Printf("port %d not available (%v); skipping", p, err)
+			continue
+		}
+		go func() { _ = a.http.Serve(xln) }()
+		logger.Printf("also on port %d", p)
+	}
+	go a.advertise(cfg.MdnsName, listenPort)
 	return a, nil
 }
 
