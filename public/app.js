@@ -556,7 +556,7 @@ async function loadHistory() {
   const zoneSet = new Set();
   snaps.forEach((s) => (s.zones || []).forEach((z) => zoneSet.add(z)));
   const zones = Array.from(zoneSet);
-  const rows = [{ key: "hub", label: "Hub (192.168.1.46)" }, { key: "ntp", label: "NTP time sync" }, ...zones.map((z) => ({ key: "z:" + z, label: z }))];
+  const rows = [{ key: "hub", label: status && status.hubHost ? `Hub (${status.hubHost})` : "Hub" }, { key: "ntp", label: "NTP time sync" }, ...zones.map((z) => ({ key: "z:" + z, label: z }))];
   // State of each entity at snapshot s: "ok" | "off" | "warn" | "stopped" | "none"
   const stateAt = (s, key) => {
     if (s.hub === null) return "none";
