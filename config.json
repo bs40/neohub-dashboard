@@ -1,5 +1,5 @@
 {
-  "hubHost": "192.168.1.46",
+  "hubHost": "192.168.1.100",
   "hubPort": 4242,
   "listenHost": "0.0.0.0",
   "listenPort": 8484,

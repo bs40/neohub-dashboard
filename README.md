@@ -120,7 +120,7 @@ No dependencies are installed: it is plain Node (v18 or newer) with no build ste
 
 | Key | Meaning |
 |---|---|
-| `hubHost` | IP of the neoHub (`192.168.1.46`) |
+| `hubHost` | IP of your neoHub on the LAN (the shipped `192.168.1.100` is a placeholder; the tray app shows the real address under **Hub**) |
 | `hubPort` | `4242`, the legacy local API |
 | `listenHost` | `0.0.0.0` for LAN access, `127.0.0.1` for this PC only |
 | `listenPort` | Port the dashboard serves on (`8484`) |
